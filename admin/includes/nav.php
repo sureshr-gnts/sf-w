@@ -30,6 +30,11 @@
                                 <i class="fa fa-dashboard"></i> <span>Adoption Rate</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="animal_registration.php">
+                                <i class="fa fa-dashboard"></i> <span>Animal Registration</span>
+                            </a>
+                        </li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-bar-chart-o"></i>
