@@ -1,3 +1,21 @@
+
+<?php 
+	$page_id="home";
+	include_once 'libs/class.database.php';
+	include_once 'libs/class.session.php';
+	include_once 'libs/functions.php';
+	session_start();
+	
+	
+
+	$session= new Session();
+	if(!$session->has_logged_in())
+	{
+		redirect_to("index.php");
+	}
+	print_r($_SERVER['HTTP_USER_AGENT']);
+	?> 
+
 <!DOCTYPE html>
 <html>
     <head>

@@ -30,11 +30,7 @@ if($mode == "upload")
 
 	        global $database, $db;
 	        $qry_update="UPDATE `".TBL_ABOUTUS."` SET `aboutus`='".$aboutus."',`goals`='".$goals."',`mission`='".$mission."',`core_mission`='".$core_mission."',`methods`='".$methods."' ";
-	        
-			/* $qry_update="INSERT INTO `".TBL_NEWS."` (`news_category`,`title`,`news_content`,`source`,`source_url`,`created_from`,`created_by`,`created_dt`)"
-                        . " VALUES ('".$category."','".$news_title."', '".$news_content."','".$source."','".$source_url."','".$_SERVER['HTTP_USER_AGENT']."','".$_SESSION['VFA_Userid']."', NOW());";
-	//print_r($qry_update);
-	//exit(); */
+
 			$result_upload = $database->query( $qry_update );
 			//echo "The image {$_FILES['media']['name'][$i]} was successfully uploaded and added to the gallery<br />";
                   if($result_upload >0)

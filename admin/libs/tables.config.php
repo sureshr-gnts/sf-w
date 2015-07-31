@@ -20,4 +20,5 @@ defined('TBL_HOMELESS_FRIENDS') ? null : define('TBL_HOMELESS_FRIENDS',$PREFIX.'
 defined('TBL_ADOPT') ? null : define('TBL_ADOPT',$PREFIX.'adopt' );
 defined('TBL_POLL') ? null : define('TBL_POLL',$PREFIX.'poll' );
 defined('TBL_ACT_NOW') ? null : define('TBL_ACT_NOW',$PREFIX.'act_now' );
+defined('TBL_ANIMAL') ? null : define('TBL_ANIMAL',$PREFIX.'animal' );
 ?>

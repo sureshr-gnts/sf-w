@@ -85,29 +85,29 @@ if(($fileSize<=500000000))
 		$fileType = $_FILES['image']['type']; 
 		
 
-	 $qry_add="INSERT INTO `".TBL_ANIMAL."` (`animal_name`, `gender`, `dob`, `age`, `species`, `weight`, `colour`, `behaviour`, `breed`, `location`, `image`, `relationship`, `donor_no`, `volunteer_no`, `caretaker_name`, `caretaker_mob`, `caretaker_email`, `caretaker_address`, `feeder_name`, `desex`, `desex_date`) VALUES ('".$animal_name."', '".$gender."', '".$dob."', '".$age."', '".$species."', '".$weight."', '".$colour."', '".$behaviour."', '".$breed."', '".$location."', '".$fileName."', '".$relationship."', '".$donor_no."', '".$volunteer_no."', '".$caretaker_name."', '".$caretaker_mob."', '".$caretaker_email."', '".$caretaker_address."', '".$feeder_name."', '".$desex."', '".$desex_date."');";
-	$result_upload = $database->query( $qry_add );
+	 $qry_add="INSERT INTO `".TBL_ANIMAL."` (`animal_name`, `gender`, `dob`, `age`, `species`, `weight`, `colour`, `behaviour`, `breed`, `location`, `image`, `relationship`, `donor_no`, `volunteer_no`, `caretaker_name`, `caretaker_mob`, `caretaker_email`, `caretaker_address`, `feeder_name`, `desex`, `desex_date`, `microchip`, `microchip_date`, `microchip_no`, `arv`, `arv_date`, `arv_due`, `dhpp`, `dhpp_date`, `dhpp_due`, `fvrcp`, `fvrcp_date`, `fvrcp_due`, `deworming`, `deworming_date`, `deworming_due`, `medical_histroy`, `vet_mob`, `vet_name`) VALUES ('".$animal_name."', '".$gender."', '".$dob."', '".$age."', '".$species."', '".$weight."', '".$colour."', '".$behaviour."', '".$breed."', '".$location."', '".$fileName."', '".$relationship."', '".$donor_no."', '".$volunteer_no."', '".$caretaker_name."', '".$caretaker_mob."', '".$caretaker_email."', '".$caretaker_address."', '".$feeder_name."', '".$desex."', '".$desex_date."', '".$microchip."', '".$microchip_date."', '".$microchip_no."', '".$arv."', '".$arv_date."', '".$arv_due."', '".$dhpp."', '".$dhpp_date."', '".$dhpp_due."', '".$fvrcp."', '".$fvrcp_date."', '".$fvrcp_due."', '".$deworming."', '".$deworming_date."', '".$deworming_due."', '".$medical_histroy."', '".$vet_mob."', '".$vet_name."');";
+			$result_upload = $database->query( $qry_add );
 
 	if($result_upload>0)
 	{
 		$msg="Updated successfully!.";
-         redirect_to('dogofweek_manage.php?msg=Updated successfully!.');
+         redirect_to('animal_registration_manage.php?msg=Updated successfully!.');
 	}
 	else
 	{
 		$error="Updating failed!.";
-       redirect_to('dogofweek_new.php?error=Updating failed!.');
+       redirect_to('animal_registration.php?error=Updating failed!.');
 	}
 	}
 	else 
 	{
-		redirect_to('dogofweek_new.php?error=all failed!.');
+		redirect_to('animal_registration.php?error=all failed!.');
 	}
         }
 
 else
 {
-    redirect_to('dogofweek_new.php?error=File size is too large.');
+    redirect_to('animal_registration.php?error=File size is too large.');
 }
 }
 		

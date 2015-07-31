@@ -5,12 +5,11 @@
  *  
  */
 class Session{
-                private $EmpID=0;
-		private $employerID=0;
+        private $id=0;
 		private $logged_in = false;
 		private $username='';
 		private $emailAddress='';
-		private $accessLevel=0; //1=employee, 3= employer, 5=administrator of site
+		private $accessLevel=0;
 		private $message='';
 function __construct()
 		{
@@ -61,11 +60,7 @@ public function set_user_permission() {
 			$_SESSION['sql']=$sql;
 			//$permission = array();
                         $permission=$database->db_result_to_array($result);
-//			while ( $row = $database->db_result_to_object($result) ) 
-//			{
-//				//$permission[$row->permission_name]=$row->permission_name;
-//				$permission[$row->permission_name]=1;
-//			}			
+		
 			$_SESSION['UsrPermission']= $permission;
             
         }
@@ -96,7 +91,7 @@ public function has_logged_in()
     public function check_permission_level($page_id) {
         $permission_level=false;
             foreach ($_SESSION["UsrPermission"] as $attr => $val) {
-               //echo $val["permission_name"]."<br />";
+
                 
              if($val["permission_name"] == $page_id)
              {
@@ -105,13 +100,7 @@ public function has_logged_in()
              }
          }
          return $permission_level;
-//        if (in_array($page_id, $_SESSION["UsrPermission"])) {
-//    return true;
-//}
-//else
-//{
-//    return false;
-//}
+
         
     }
 

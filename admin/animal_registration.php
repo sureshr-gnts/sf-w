@@ -265,8 +265,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="desex">DESEX</label>
                                             <div class="radio">
-                                                    <input type="radio" name="desex" id="" value="male" checked>YES
-                                                    <input type="radio" name="desex" id="" value="female">NO
+                                                    <input type="radio" name="desex" id="" value="yes" checked>YES
+                                                    <input type="radio" name="desex" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -285,8 +285,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="microchip">MICROCHIP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="microchip" id="" value="male" checked>YES
-                                                    <input type="radio" name="microchip" id="" value="female">NO
+                                                    <input type="radio" name="microchip" id="" value="yes" checked>YES
+                                                    <input type="radio" name="microchip" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -302,20 +302,15 @@ if(isset($_SESSION["newsEdit_formData"])){
                                         </div>
                                         <div class="form-group">
                                             <label for="microchip_no">MICROCHIP NUMBER</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="microchip_no" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            <input type="text" class="form-control" id="microchip_no" name="microchip_no">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="arv">ARV</label>
                                             <div class="radio">
-                                                    <input type="radio" name="arv" id="" value="male" checked>YES
-                                                    <input type="radio" name="arv" id="" value="female">NO
+                                                    <input type="radio" name="arv" id="" value="yes" checked>YES
+                                                    <input type="radio" name="arv" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -343,8 +338,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="dhpp">DHPPi+L</label>
                                             <div class="radio">
-                                                    <input type="radio" name="dhpp" id="" value="male" checked>YES
-                                                    <input type="radio" name="dhpp" id="" value="female">NO
+                                                    <input type="radio" name="dhpp" id="" value="yes" checked>YES
+                                                    <input type="radio" name="dhpp" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -372,8 +367,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="fvrcp">FVRCP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="fvrcp" id="" value="male" checked>YES
-                                                    <input type="radio" name="fvrcp" id="" value="female">NO
+                                                    <input type="radio" name="fvrcp" id="" value="yes" checked>YES
+                                                    <input type="radio" name="fvrcp" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -401,8 +396,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="deworming">DEWORMING</label>
                                             <div class="radio">
-                                                    <input type="radio" name="deworming" id="" value="male" checked>YES
-                                                    <input type="radio" name="deworming" id="" value="female">NO
+                                                    <input type="radio" name="deworming" id="" value="yes" checked>YES
+                                                    <input type="radio" name="deworming" id="" value="no">NO
                                             </div>
                                          </div>
                                     </div>
@@ -429,7 +424,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>MEDICAL HISTROY</label>
-                                            <textarea class="form-control" rows="4" id="medical_histroy" name="news_content"></textarea>
+                                            <textarea class="form-control" rows="4" id="medical_histroy" name="medical_histroy"></textarea>
                                         </div>
 				     				</div>
 				     				
@@ -443,11 +438,11 @@ if(isset($_SESSION["newsEdit_formData"])){
 									<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="vet_name">VET NAME</label>
-                                            <input type="text" class="form-control" id="place" name="vet_name">
+                                            <input type="text" class="form-control" id="vet_name" name="vet_name">
                                         </div>
                                         <div class="form-group">
                                             <label for="vet_mobile">VET MOBILE NUMBER</label>
-                                            <input type="text" class="form-control" id="place" name="vet_mobile">
+                                            <input type="text" class="form-control" id="vet_mob" name="vet_mob">
                                         </div>
                                      </div>
 									

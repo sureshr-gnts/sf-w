@@ -139,7 +139,7 @@ session_start();
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-       <!-- jQuery 2.0.2 -->
+        <!-- jQuery 2.0.2 -->
         <script src="css/includes/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="css/includes/bootstrap.min.js" type="text/javascript"></script>

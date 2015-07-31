@@ -23,8 +23,7 @@ class Emp_Authendicate
 			$sql .= " AND password = '{$password}' ";
                         $sql .= " AND isactive='1' ";
                         $sql .= " LIMIT 1";
-                        //return $sql;
-                        //echo $sql;
+
 			$result_array = self::find_by_sql($sql);
                         return $result_array;
 			//return !empty($result_array) ? array_shift($result_array) : false;
