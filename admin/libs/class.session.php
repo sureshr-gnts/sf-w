@@ -4,13 +4,9 @@
  * Voice for Animals
  *  
  */
+
 class Session{
-        private $id=0;
-		private $logged_in = false;
-		private $username='';
-		private $emailAddress='';
-		private $accessLevel=0;
-		private $message='';
+
 function __construct()
 		{
 			//if ( session_id() == 0 ) {session_start();}
@@ -22,10 +18,12 @@ function __construct()
 public function set_session($uservalue)
 {
     $_SESSION['VFA_Login']=true;
-    $_SESSION['VFA_Userid']=$uservalue["userid"];
-    $_SESSION['VFA_isactive']=$uservalue["isadmin"];
+    $_SESSION['VFA_Userid']=$uservalue["id"];
+    $_SESSION['VFA_isactive']=$uservalue["isActive"];
      $_SESSION['VFA_username']=$uservalue["username"];
-    
+/*     print_r($uservalue["isAdmin"]);
+     exit; 
+     */
 }
 public function set_admin_permission()
 {
@@ -34,7 +32,7 @@ public function set_admin_permission()
         if($_SESSION['VFA_Login'] == 1)
         {
             global $db, $database;
-			$sql = "SELECT permission_name FROM ".TBL_USER_PERMISSIONS." WHERE  status='1' and isadmin=1";
+			$sql = "SELECT permission_name FROM ".TBL_PERMISSIONS." ";
 			$result = $db->query( $sql );
 			//$_SESSION['MGZN_isadmin']=$sql;
 			//$permission = array();
@@ -55,7 +53,7 @@ public function set_user_permission() {
         if($_SESSION['VFA_Login'] == 1)
         {
             global $db, $database;
-			$sql = "SELECT permission_name FROM ".TBL_USER_PERMISSIONS." WHERE  status='1' and isadmin=0";
+			$sql = "SELECT permission_name FROM ".TBL_USER_PERMISSIONS."";
 			$result = $db->query( $sql );
 			$_SESSION['sql']=$sql;
 			//$permission = array();
@@ -72,7 +70,9 @@ public function has_logged_in()
 		 /**
 		 *  check to see if user logged in
 		 */
-			if(isset($_SESSION['VFA_Login']) && isset($_SESSION['VFA_isactive']) )
+/* 		print_r($_SESSION['VFA_Login']);
+			exit; */
+			if($_SESSION['VFA_isactive'] == 1)
 			{
 			  return TRUE;
 			   

@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <?php 
-$page_id="user_new";
 include_once 'libs/class.database.php';
 include_once 'libs/class.session.php';
 include_once 'libs/functions.php';
+include_once 'libs/lang.php';
 session_start();
 $session= new Session();
-//if(!$session->has_logged_in())
-//{
-//	redirect_to("index.php");
-//}
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
 
-//if(!$session->check_permission_level($page_id))
-//{
-//    echo "<script>alert(\"You have not permission to access this page.\");</script>";
-//     redirect_to("home.php");
-//}
-//print_r($_REQUEST);
 $id=$_REQUEST['id'];
 $error=$_REQUEST['error'];
 
@@ -124,10 +118,43 @@ if(isset($_SESSION["userEdit_formData"])){
                                             </select>
                                         </div>
                                       </div>
+                                      <div class="col-lg-12"> 				 
+				     				 <div>
+										<h3 class="text-green">Set Permissions for user</h3>
+									</div>
+									<div>
+										<h4 class="text-red">(Please select atleast one user permission)</h4>
+									</div>
+									</div>
+									
+									<!-- checkbox -->
+									<div class="col-lg-12"> 
+									
+									<?php 
+					                   foreach ($lang['select']['user_permissions'] as $key => $value){
+					                   //print_r($lang['select']['admin_permissions']);
+				                    ?>
+									
+									
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                    <input type="checkbox" name="permission[<?php echo $key; ?>]" id="permission" value="<?php echo $key; ?>">
+                                                <label>
+                                                    <?php echo $value;?>
+                                                </label>
+                                            </div>
+										<?php 
+				                          }
+				                        ?>
+                                        </div>
+                                     </div>
+									
+									
+									<div class="col-lg-12"> 
                                     	<div class="box-footer">
                                             <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
-					</div>
-				     </div>
+										</div>
+				     				</div>
                                 </form>
                 </section>
 	</aside>

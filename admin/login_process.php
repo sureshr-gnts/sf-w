@@ -16,13 +16,15 @@ session_start();
 	if( $username == '' || $password == '' || empty( $username) || empty($password) )
 	{
 		$_SESSION["msg"]= "User name or password cant be empty";
+		header('Location:index.php');
+		exit;
 	}
         	//if they are no errors then process the login page
 	else 
 	{
             
             $has_user_been_found = Emp_Authendicate::authenticate( $username, $password );
-          // print_r( $has_user_been_found);
+
             //$errors["user_details"]=$has_user_been_found;
             if( $has_user_been_found )
 		{

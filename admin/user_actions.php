@@ -4,12 +4,13 @@ include_once 'libs/class.database.php';
 include_once 'libs/class.session.php';
 include_once 'libs/functions.php';
 include_once 'libs/tables.config.php';
+include_once 'libs/lang.php';
 session_start();
 $session= new Session();
-//if(!$session->has_logged_in())
-//{
-//	redirect_to("index.php");
-//}
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
 $mode=$_REQUEST["mode"];
 
 if($mode == "user")
@@ -26,12 +27,40 @@ if($mode == "user")
 	$account_type=$_REQUEST["account_type"];
 	$status=$_REQUEST["status"];
     $_SESSION["userEdit_formData"]=$_REQUEST;
+    
+
+
+    $user->permission = sizeof($_REQUEST['permission']);
+    $_SESSION['user']['permissions'][999]=999;
+    
+    if( $user->permission > 0 )
+    {
+    	$_SESSION['user']['permissions']=array();
+    	foreach ($_REQUEST['permission'] as $k => $v )
+    	{
+    		$_SESSION['user']['permissions'][$k] = $k;
+    	}
+    }
                      
 	
 
 	        global $database, $db;
+	        
 			$qry_update="INSERT INTO `".TBL_ADMIN."` (`username`,`password`,`name`,`isAdmin`,`isActive`)"
                         . " VALUES ('".$username."','".$password."', '".$name."','".$account_type."','".$status."');";
+			
+			
+			foreach ( $_REQUEST['permission'] as $k )
+			/* print_r($k);
+			exit; */
+			{
+				$sql = "INSERT INTO ".TBL_PERMISSIONS. " (user_id ,permission_name,w_user) VALUES ( '1', '{$k}','".$account_type."' );";
+				if ( $database->query( $sql ) )
+					$success = true;
+					
+				unset($sql);
+			}
+			
 
 			$result_upload = $database->query( $qry_update );
 			//echo "The image {$_FILES['media']['name'][$i]} was successfully uploaded and added to the gallery<br />";
