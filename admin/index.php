@@ -19,7 +19,7 @@ session_start();
 
         <div class="form-box" id="login-box">
             <div class="header">LOG IN</div>
-            <form action="login_process.php" name="login_form" method="get">
+            <form action="login_process.php" name="login_form" method="get" autocomplete="off">
             
                 <div class="body bg-gray">
                 <?php if (isset($_SESSION["msg"])) { ?>

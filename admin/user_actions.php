@@ -49,21 +49,19 @@ if($mode == "user")
 			$qry_update="INSERT INTO `".TBL_ADMIN."` (`username`,`password`,`name`,`isAdmin`,`isActive`)"
                         . " VALUES ('".$username."','".$password."', '".$name."','".$account_type."','".$status."');";
 			
-			
+			$result_upload = $database->query( $qry_update );
+			$id = $database->insert_id();
+		//	print_r($id);exit;
 			foreach ( $_REQUEST['permission'] as $k )
-			/* print_r($k);
-			exit; */
 			{
-				$sql = "INSERT INTO ".TBL_PERMISSIONS. " (user_id ,permission_name,w_user) VALUES ( '1', '{$k}','".$account_type."' );";
+				$sql = "INSERT INTO ".TBL_PERMISSIONS. " (user_id ,permission_name,w_user) VALUES ( '".$id."', '{$k}','".$account_type."' );";
 				if ( $database->query( $sql ) )
 					$success = true;
 					
-				unset($sql);
+				//unset($sql);
 			}
 			
 
-			$result_upload = $database->query( $qry_update );
-			//echo "The image {$_FILES['media']['name'][$i]} was successfully uploaded and added to the gallery<br />";
                   if($result_upload >0)
 	{
 		$msg="Updated successfully!.";
@@ -114,8 +112,6 @@ if($mode == "user_edit")
   		if($result_update)
   		{
   				$msg="User deleted successfully!.";
-  				//echo "<script type='text/javascript'> alert('Deleted Successfully.!.');</script>";
-  				//redirect_to('upload.php');
   				redirect_to('user.php?msg='.$msg);
   			}
   			else{
