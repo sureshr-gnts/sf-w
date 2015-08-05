@@ -149,8 +149,8 @@ $error=$_REQUEST['error'];
                                                 			echo "Inactive";
                                             			}
                                             	 ?>
-                                            </td>
-                                            <td>
+                                           </td>
+                                            	<td>
                                                 <a href="user_edit.php?id=<?php echo $row['id']; ?>">
                                                     <button class="btn btn-xs bg-maroon">EDIT</button>
                                                 </a>
@@ -158,8 +158,8 @@ $error=$_REQUEST['error'];
                                                     <button class="btn btn-xs bg-orange delete_confirm">DELETE</button>
                                                 </a>
                             	
-                            				</td>
-                                        </tr>
+                            					</td>
+                                       </tr>
                                                         <?php 
                                                                 $j++;
                                                                 }

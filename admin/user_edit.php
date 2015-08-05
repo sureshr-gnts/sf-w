@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <?php 
+error_reporting (E_ALL ^ E_NOTICE);
 $page_id="user_edit";
 include_once 'libs/class.database.php';
 include_once 'libs/class.session.php';
 include_once 'libs/functions.php';
+include_once 'libs/lang.php';
 session_start();
 $session= new Session();
 //if(!$session->has_logged_in())
@@ -18,6 +20,8 @@ $session= new Session();
 //}
 //print_r($_REQUEST);
 $id=$_REQUEST['id'];
+/* print_r($id);
+exit; */
 $error=$_REQUEST['error'];
 
 $formd_username="";
@@ -93,14 +97,7 @@ if(isset($_SESSION["userEdit_formData"])){
            
             ?>
 				
-				
-				
-				
-				
-				
-				
-				
-				
+		
                                 <form role="form" action="user_actions.php" enctype="multipart/form-data" method="post">
 								<input type="hidden" name="mode" value="user_edit">
 								<input type="hidden" id="id" name="id" value="<?php echo $_REQUEST['id']; ?>">
@@ -121,7 +118,7 @@ if(isset($_SESSION["userEdit_formData"])){
                                             <label>ACCOUNT TYPE</label>
                                             <select class="form-control" id="account_type" name="account_type">
 												 <option  <?php if($row['isAdmin']=='1') { echo 'selected="true"';} ?> value="1">Admin</option>
-                                                 <option <?php if($row['isAdmin']=='0') { echo 'selected="true"';} ?> value="0">Sub-Admin</option>
+                                                 <option <?php if($row['isAdmin']=='2') { echo 'selected="true"';} ?> value="2">Sub-Admin</option>
                                             </select>
                                         </div>
                                       </div>
@@ -130,14 +127,57 @@ if(isset($_SESSION["userEdit_formData"])){
                                             <label>STATUS</label>
                                             <select class="form-control" id="status" name="status">
                                                  <option  <?php if($row['isActive']=='1') { echo 'selected="true"';} ?> value="1">Active</option>
-                                                 <option <?php if($row['isActive']=='0') { echo 'selected="true"';} ?> value="0">Inactive</option>
+                                                 <option <?php if($row['isActive']=='2') { echo 'selected="true"';} ?> value="2">Inactive</option>
                                             </select>
                                         </div>
                                       </div>
+                                    	<div class="col-lg-12"> 				 
+				     				 <div>
+										<h3 class="text-green">Set Permissions for user</h3>
+									</div>
+									<div>
+										<h4 class="text-red">(Please select atleast one user permission)</h4>
+									</div>
+									</div>
+									
+									
+			<?php
+			$id = $_GET['id'];	
+			
+			if( !isset($_SESSION['permissions']) )
+			{
+				$_SESSION['permissions'] = getPermission( $id );
+			}			
+			
+			?>
+			
+									
+									<!-- checkbox -->
+									<div class="col-lg-12"> 
+									
+									<?php 
+																foreach ($lang['select']['user_permissions'] as $key => $value){
+
+				                                            	?>
+				                                            	<div class="col-md-1"></div>
+				                                            	<div class="col-md-1">
+																	<input type="checkbox" name="permission[<?php echo $key; ?>]" id="permission" <?php if (is_array(getPermission( $id ))){if (array_key_exists($key, getPermission( $id ))){?> checked="checked" <?php }}?> value="<?php echo $key; ?>">
+																</div>
+																<div class="col-md-10">
+				                                            		<label><?php echo $value;?></label>
+				                                            	</div>
+				                                            	<?php 
+				                                            	}
+				                                            	?>
+                                        </div>
+                                     </div>
+									
+									
+									<div class="col-lg-12"> 
                                     	<div class="box-footer">
                                             <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
-					</div>
-				     </div>
+										</div>
+				     				</div>
                                 </form>
                 </section>
 	</aside>
@@ -151,3 +191,7 @@ if(isset($_SESSION["userEdit_formData"])){
 
 </body>
 </html>
+<?php
+unset($_SESSION);
+
+?>

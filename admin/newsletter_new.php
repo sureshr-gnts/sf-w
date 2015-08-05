@@ -54,8 +54,8 @@ if(isset($_SESSION["newsEdit_formData"])){
         <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="js/tinymce/tinymce.js"></script>
-	<script type="text/javascript">
+		<script type="text/javascript" src="js/tinymce/tinymce.js"></script>
+		<script type="text/javascript">
         	tinymce.init({
             		selector: "#mytextarea"
         	});

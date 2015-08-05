@@ -1,11 +1,19 @@
 <?php 
-error_reporting (E_ALL ^ E_NOTICE);
-include_once 'libs/class.database.php';
-include_once 'libs/class.session.php';
-include_once 'libs/functions.php';
-include_once 'libs/tables.config.php';
-session_start();
-?>
+
+	$page_id="dashboard";
+	include_once 'libs/class.database.php';
+	include_once 'libs/class.session.php';
+	include_once 'libs/functions.php';
+	session_start();
+
+
+	$session= new Session();
+	if(!$session->has_logged_in())
+	{
+		redirect_to("index.php");
+	}
+
+	?> 
 <!DOCTYPE html>
 <html>
     <head>

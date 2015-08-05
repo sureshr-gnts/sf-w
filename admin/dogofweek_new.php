@@ -53,6 +53,12 @@ if(isset($_SESSION["newsEdit_formData"])){
         <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/tinymce/tinymce.js"></script>
+		<script type="text/javascript">
+        	tinymce.init({
+            		selector: "#mytextarea"
+        	});
+    	</script>
 
     </head>
     <body class="pace-done skin-black fixed">
@@ -87,7 +93,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                 <section class="content">
 				<!-- form start -->
                                 <form role="form" action="dogofweek_actions.php" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="mode" value="post_new" />
+								<input type="hidden" name="mode" value="post_new" />
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="dog_name">NAME OF THE DOG</label>
@@ -97,13 +103,13 @@ if(isset($_SESSION["newsEdit_formData"])){
 				     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="area">AREA</label>
-                                            <input type="text" class="form-control" id="area" name="area">
+                                            <input type="text" class="form-control" id="dog_area" name="dog_area">
                                         </div>
                                      </div>
 				     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="place">PLACE</label>
-                                            <input type="text" class="form-control" id="place" name="place">
+                                            <input type="text" class="form-control" id="dog_place" name="dog_place">
                                         </div>
                                      </div>
 				     <div class="col-lg-6">
@@ -119,8 +125,8 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      </div>
 				     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>MESSAGE</label>
-                                            <textarea class="form-control" name="message" rows="5"></textarea>
+                                        	<label>MESSAGE</label>
+                                            <textarea id="mytextarea" class="form-control" name="message"></textarea>
                                         </div>
 				     </div>
 				     <div class="col-lg-6">
@@ -128,10 +134,15 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             <label for="image">IMAGE</label>
                                             <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)">
                                         </div>
+                                        <div class="form-group">
+                                        <div class="col-md-3">
+                                             <img id="imgprvw1" alt="upload new image" src="img/upload.png" />
+                                        </div>
+                                        </div>
 				     </div>
 				     <div class="col-lg-12">
                                     	    <div class="box-footer">
-                                            <button type="submit" name="action" class="btn btn-primary">Submit</button>
+                                            <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
 					    </div>
                                     	</div>
 				     </div>
@@ -208,5 +219,16 @@ if(isset($_SESSION["newsEdit_formData"])){
                 });
             });
         </script>
+        <script>
+               function showimagepreview1(input) {
+               if (input.files && input.files[0]) {
+               var filerdr = new FileReader();
+               filerdr.onload = function(e) {
+               $('#imgprvw1').attr('src', e.target.result);
+               }
+               filerdr.readAsDataURL(input.files[0]);
+               }
+               }
+           </script>
 </body>
 </html>

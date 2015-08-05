@@ -22,9 +22,10 @@ if($mode=="post_new")
 	$dog_area=$_REQUEST["dog_area"];
 	$dog_place=$_REQUEST["dog_place"];
 	$date=$_REQUEST["date"];
-	$message=$_REQUEST["message"];
+	$message = stripslashes($_REQUEST["message"]);
 	$image=$_REQUEST["image"];
         $_SESSION["categoryEdit_formData"]=$_REQUEST;
+        
 	
 	$file_path = $target_path . basename( $_FILES['image']['name']);
         $file_name = $_FILES['image']['name'];
@@ -51,8 +52,9 @@ if(($fileSize<=500000000))
 		$fileSize = $_FILES['image']['size']; 
 		$fileType = $_FILES['image']['type']; 
 		
+		
 
-	 $qry_add="INSERT INTO `".TBL_DOGOF_THEWEEK."` (`dog_name`, `dog_area`, `dog_place`, `message`, `image_url`, `created_dt`) VALUES ('".$dog_name."', '".$dog_area."', '".$dog_place."', '".$message."', '".$fileName."', '".$date."');";
+	 $qry_add="INSERT INTO `".TBL_DOGOF_THEWEEK."` (`dog_name`, `dog_area`, `dog_place`, `message`, `image_url`, `created_dt`, `created_by`) VALUES ('".$dog_name."', '".$dog_area."', '".$dog_place."', '".$message."', '".$fileName."', '".$date."', '".$_SESSION['VFA_username']."');";
 	$result_upload = $database->query( $qry_add );
 
 	if($result_upload>0)
@@ -80,235 +82,109 @@ else
 		
               
 
-if($mode=="news_edit")
+if($mode=="post_edit")
 {
-    global $database, $db;
-	$news_id=$_REQUEST["news_id"];	
-	$category=$_REQUEST["category"];	
-	$news_title=$database->escape_value ($_REQUEST["news_title"]);
-	$news_content=$database->escape_value ($_REQUEST["news_content"]);
-    $news_status=$_REQUEST["news_status"];
-	$lang=$_REQUEST["lansel"];
-	//$uptd_dt=$_REQUEST["uptd_dt"];
-	//$uptd_by=$_REQUEST["uptd_by"];
-	$media_id=$_REQUEST["oldmedia_id"];
-    $news_source=$_REQUEST["news_source"];
-    $news_source_url=$_REQUEST["news_source_url"];
-    $agree=$_REQUEST["agree"];
-    $media1=$_REQUEST["media"];
-    $pushnofication_check=$_REQUEST["pushnofication_check"];
+	global $database, $db;
 
-
-	 if($news_id != "")
-{
-            
-$qry_update="UPDATE `".TBL_NEWS."` SET `news_category`='".$category."', `title`='".$news_title."', 
-		`news_content`= '".$news_content."',`source`='".$news_source."',`source_url`='".$news_source_url."', `language_code`='".$lang."',`updated_by`='".$_SESSION['MGZN_username']."'"
-        . ",`push_notify`=  '".$pushnofication_check."',status='".$news_status."',agree='".$agree."' WHERE `newsid`='".$news_id."' ";
-    
-	$result_update = $database->query( $qry_update );
-if($result_update)
-{
-//print_r(count($_FILES["media"]["name"]));
-//exit;
-       // print_r($_REQUEST);
-    $msg="updated successfully.";
-    $error="";
-$chk_qry="select * from ".TBL_MEDIA." where news_id='".$news_id."'";
-$result_chk = $database->query( $chk_qry );
-$imgarr=$database->db_result_to_array($result_chk);
-foreach ($imgarr as $img) {
-    //echo $img["media_id"];
-    foreach ($_REQUEST["oldmedia_id"] as $value) {
-       // echo $value."<br />";
-    }
-    if (! in_array($img["media_id"], $_REQUEST["oldmedia_id"])) {
-    $del_qry="DELETE FROM ".TBL_MEDIA." WHERE `media_id`='".$img["media_id"]."' and media_type='image';";
-    $database->query( $del_qry );
-}
-    
-}
-foreach ($imgarr as $img) {
-    //echo $img["media_id"];
-    foreach ($_REQUEST["old_audio_video"] as $value) {
-       // echo $value."<br />";
-    }
-    if (! in_array($img["media_id"], $_REQUEST["old_audio_video"])) {
-    $del_qry="DELETE FROM ".TBL_MEDIA." WHERE `media_id`='".$img["media_id"]."' and (media_type='audio' or media_type='video');";
-    $database->query( $del_qry );
-}
-
-    
-}
-if($_FILES["media"]["name"][0] != "")
-{
-for($i=0; $i < count($_FILES["media"]["name"]); $i++){
-		
-		//$file_path[$i] = $target_path .(basename($_FILES["media"]["name"][$i]));
-        //$img[$i]=basename($_FILES["media"]["name"][$i]);
-          
-                $fileName=$_FILES["media"]["name"][$i];
-                
-		$ext = substr($fileName, strrpos($fileName, '.') + 1);
-		$fname=uniqid().".".$ext;
-                $size=$_FILES['media']['size'][$i];
-			 //print_r($size);
-			//exit;
-            list($width, $height, $type, $attr) = getimagesize($_FILES["media"]['tmp_name'][$i]);
-
-
-if(($size<30001))
-                   {
-    if(($width == 480) && ($height == 360) && ($_FILES["media"]["name"][$i] != ""))
-    {
-		if (move_uploaded_file($_FILES["media"]["tmp_name"][$i], $target_path. $fname))
-		{
-                   // echo $fileName."<br />";
-		//echo $fname."<br />";
-            
-                     
+	$dog_name=$database->escape_value ($_REQUEST["dog_name"]);	
+	$dog_area=$_REQUEST["dog_area"];
+	$dog_place=$_REQUEST["dog_place"];
+	$date=$_REQUEST["date"];
+	$message=$_REQUEST["message"];
+	$image=$_REQUEST["image"];
+	$file_name = $_FILES['image']['name'];
+	$status=$_REQUEST["status"];
+        $_SESSION["categoryEdit_formData"]=$_REQUEST;
+/*         print_r(file($image));
+        exit; */
+        
+        
+        if(empty($file_name))
+        {
+        
+        	$qry_update="UPDATE `".TBL_DOGOF_THEWEEK."` SET `dog_name`='".$dog_name."', `dog_area`='".$dog_area."',
+		`dog_place`= '".$dog_place."',`created_dt`='".$date."',`message`='".$message."',`status`='".$status."' , `updated_by`='".$_SESSION['VFA_username']."'"
+        				. ",`updated_dt`= NOW() WHERE `dog_id`='".$_REQUEST['id']."' ";
+        	$result_upload = $database->query( $qry_update );
+        	
+        	if($result_upload>0)
+        	{
+        		$msg="Updated successfully!.";
+        		redirect_to('dogofweek_manage.php?msg=Updated successfully!.');
+        	}
+        	else
+        	{
+        		$error="Updating failed!.";
+        		redirect_to('dogofweek_new.php?error=Updating failed!.');
+        	}
+        }
+        
+        
+        else
+        {
 	
+	$file_path = $target_path . basename( $_FILES['image']['name']);
+        $file_name = $_FILES['image']['name'];
+        $fileSize = $_FILES['image']['size'];
+       /*  print_r($file_name);
+        exit; */
 
-	        global $database, $db;
-			$qry_image="INSERT INTO `".TBL_MEDIA."` (`news_id`,`media_url`) VALUES ('".$news_id."','".$fname."');";
-			$result_upload = $database->query( $qry_image );
-                        echo $qry_image;
-			//echo "The image {$_FILES['media']['name'][$i]} was successfully uploaded and added to the gallery<br />";
-                  if($result_upload)
-                {
-                        $msg="Updated successfully!.";
-                        echo $msg;
-                        //redirect_to('upload.php?error=Updated successfully!...');;
-                }
-                else
-                {
-                        $error="Updating failed!.";
-
-                        //redirect_to('upload.php?error=Uploading Failed.!...');
-                }
-
-
-
-                  
+                    $ext = strtolower(substr($file_name, strrpos($file_name, '.') + 1));
+                    if(!in_array($ext, $image_extensions_allowed))
+                    {
+                    $exts = implode(', ',$image_extensions_allowed);
+                    $error .= 'Uploaded image is invalid format.'
+                            . 'You must upload a file with one of the following extensions: '.$exts;
+                     redirect_to('add_category.php?error='.$error); 
+                     exit;
                     }
                     
-    }
- else {
-         $error="Image dimension should be 480 X 360..";
-                        //redirect_to('upload.php?'); 
-                   redirect_to('news_edit.php?error='.$error.'&news_id='.$news_id); 
-                     exit;  
-    }
-            
-		}
-                 else
-                   {
-                 $error="Image size is too large and it should be less than 30KB ";
-                        //redirect_to('upload.php?'); 
-                   redirect_to('news_edit.php?error='.$error.'&news_id='.$news_id); 
-                     exit;    
-                   }
-		//print_r($file_path);
-		
-	} // close your foreach
-}
+$fileSize = $_FILES['image']['size'];
+list($width, $height, $type, $attr) = getimagesize($_FILES["image"]['tmp_name']);
+if(($fileSize<=500000000))
 
-        for($i=0; $i < count($_FILES["media_audio_video"]["name"]); $i++){
-		
-		$file_path[$i] = $target_path_foraudiovideo .(basename($_FILES["media_audio_video"]["name"][$i]));
-        $img[$i]=basename($_FILES["media_audio_video"]["name"][$i]);
-          
-         $fileName=$_FILES["media_audio_video"]["name"][$i];
-                
-		$ext = substr($fileName, strrpos($fileName, '.') + 1);
-		$fname=uniqid().".".$ext;
-                 $size=$_FILES['media_audio_video']['size'][$i];
-			 //print_r($size);
-			//exit;
-                 $media_format="";
-                 
-            if(in_array($ext, $audio_extensions_allowed))
-                    {
-               $media_format="audio";
-                    }
-            elseif(in_array($ext, $video_extensions_allowed)) {
-                $media_format="video";
-            }
-//print_r($size$width$height);
-//exit;
+{
+	if(move_uploaded_file($_FILES['image']['tmp_name'], $target_path. $_FILES["image"]['name'])) 
+	{
+		$fileName = $_FILES['image']['name']; 
+		$fileSize = $_FILES['image']['size']; 
+		$fileType = $_FILES['image']['type']; 
 
-if(($size<12582912) )
-                   {
-		if (move_uploaded_file($_FILES["media_audio_video"]["tmp_name"][$i], $target_path_foraudiovideo.$fname))
-		{
-            global $database, $db;
-			$qry_image="INSERT INTO `".TBL_MEDIA."` (`news_id`,`media_url`,`media_type`,`status`)"
-                                . " VALUES ('".$news_id."','".$fname."','".$media_format."','active');";
-			$result_upload = $database->query( $qry_image );
-                        $med_id[]=$database->insert_id();
-			//echo "The image {$_FILES['media']['name'][$i]} was successfully uploaded and added to the gallery<br />";
-                  if($result_upload >0)
+
+	
+	$qry_update="UPDATE `".TBL_DOGOF_THEWEEK."` SET `dog_name`='".$dog_name."', `dog_area`='".$dog_area."',
+		`dog_place`= '".$dog_place."',`created_dt`='".$date."',`message`='".$message."',`status`='".$status."' , `image_url`='".$fileName."',`updated_by`='".$_SESSION['VFA_username']."'"
+					. ",`updated_dt`= NOW() WHERE `dog_id`='".$_REQUEST['id']."' ";
+    
+	$result_upload = $database->query( $qry_update );
+
+	if($result_upload>0)
 	{
 		$msg="Updated successfully!.";
-		//redirect_to('upload.php?error=Uploading successfully!...');;
+         redirect_to('dogofweek_manage.php?msg=Updated successfully!.');
 	}
 	else
 	{
 		$error="Updating failed!.";
-		
-		//redirect_to('upload.php?error=Uploading Failed.!...');
+       redirect_to('dogofweek_new.php?error=Updating failed!.');
 	}
-
-
-
-                  
-                    }
-             
-		}
-                
-		//print_r($file_path);
-		
 	}
-	
-                    
-       redirect_to('manage_news.php?msg='.$msg); 
-       
-}
-else
-
-        {
-           // redirect_to('upload.php?msg='.$msg."&error=".$error); 
-             redirect_to('news_edit.php?error=Updation failed Please uplode image.&news_id='.$news_id); 
-                     exit;   
+	else 
+	{
+		redirect_to('dogofweek_new.php?error=all failed!.');
+	}
         }
-exit;
-}
+
+
 else
 {
-   redirect_to('manage_news.php?msg=&error=Selected news is not available or something wrong.');  
+    redirect_to('dogofweek_new.php?error=File size is too large.');
 }
-//else
-//{
-//$qry_update="UPDATE `".TBL_NEWS."` SET `news_category`='".$category."', `title`='".$news_title."', 
-//		`news_content`= '".$news_content."', `language_code`='".$lang."',`updated_dt`='".$uptd_dt."', 
-//		`updated_by`='".$uptd_by."' WHERE `newsid`='".$news_id."' ";
-//    
-//	$result_update = $database->query( $qry_update );
-//
-//if($result_update>0)
-//	{
-//		$msg="Updated successfully!.";
-//		redirect_to('upload.php?error=Uploading successfully!...');;
-//	}
-//	else
-//	{
-//		$error="Updating failed!.";
-//		
-//		redirect_to('upload.php?error=Uploading Failed.!...');
-//	}
-//}
+}
 
 }
+		
+
 if($mode == "news_delete")
 {
 	$news_id=$_REQUEST["news_id"];

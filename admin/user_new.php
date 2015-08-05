@@ -78,7 +78,7 @@ if(isset($_SESSION["userEdit_formData"])){
 
 				
 				
-                                <form role="form" action="user_actions.php" enctype="multipart/form-data" method="post">
+                                <form role="form" action="user_actions.php" enctype="multipart/form-data" method="post" autocomplete="off">
 								<input type="hidden" name="mode" value="user">
                                      <div class="col-lg-6">
                                         <div class="form-group">
@@ -104,7 +104,7 @@ if(isset($_SESSION["userEdit_formData"])){
                                             <select class="form-control" id="account_type" name="account_type">
                                                 <option value="" disabled selected>Select Account Type</option>
                                                 <option value="1">Admin</option>
-                                                <option value="0">Sub-Admin</option>
+                                                <option value="2">Sub-Admin</option>
                                             </select>
                                         </div>
                                       </div>
@@ -114,7 +114,7 @@ if(isset($_SESSION["userEdit_formData"])){
                                             <select class="form-control" id="status" name="status">
                                                 <option value="" disabled selected>Select Status</option>
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                             </select>
                                         </div>
                                       </div>

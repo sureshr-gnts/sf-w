@@ -1,6 +1,7 @@
 <?php
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
-	//ini_set('display_errors', '1');
+error_reporting (E_ALL ^ E_NOTICE);
+	//error_reporting(E_ERROR | E_WARNING | E_PARSE);
+	ini_set('display_errors', '1');
 include_once 'class.session.php';
 include_once 'class.database.php';
 if($_SERVER["REQUEST_METHOD"]=="GET")
@@ -39,8 +40,29 @@ function default_permission()
     return $per_arr;
 }
 
-//about_update
-
+function getPermission($id=0)
+	{
+	/*
+		* get permission for user
+	*/
+		if( $id > 0)
+		{
+			global $db, $database;
+			$sql = "SELECT * FROM ".TBL_PERMISSIONS." WHERE `user_id`='".$_REQUEST['id']."' ";
+			$result = $db->query( $sql );
+			
+			$permission = array();
+			while ( $row = $db->fetch_object($result) ) 
+			{
+				//$permission[$row->permission_name]=$row->permission_name;
+				$permission[$row->permission_name]=$_REQUEST['id'];
+			}			
+			return $permission;
+		}
+		return '';
+	}
+	
+	
 
 
 

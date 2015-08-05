@@ -26,18 +26,21 @@
 		$key_id 	= $msgdetails[2];
 
         
-		if($keycode == "animal")
-		{
+		if($keycode == "animal"){
 			if($key_name == "registration"){
 				$sf_id = $key_id;
-				$sql="SELECT animal_name,gender,species,relationship,caretaker_name,caretaker_mob FROM tbl_animal where id='{$key_id}'";
-				print_r($sql); exit;
-				echo "See your Data";		
-				
-			}
-			else {
-					echo "Sorry, No data for your search";
-				}
+				$sql="SELECT animal_name,gender,species,relationship,caretaker_name,caretaker_mob FROM tbl_animal where sf_id='{$key_id}'";
+				$result_set = $database->query($sql);
+				while($row = $database->fetch_array($result_set)){
+				//print_r($row);
+
+					echo "Animal Name: ".$row['animal_name']." , Gender: ".$row['gender']." , Species: ".$row['species']." , Caretaker: ".$row['caretaker_name']." , Mobile NO: ".$row['caretaker_mob']." ";
+											}
+								}
+					else {
+							echo "Sorry, No data for your search";
+						 }
+						 
 			if($key_name == "donor"){
 				$donor_id = $key_id;
 			}

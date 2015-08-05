@@ -1,6 +1,6 @@
 <?php 
 
-	$page_id="dashboard";
+	$page_id="aboutus_mgt";
 	include_once 'libs/class.database.php';
 	include_once 'libs/class.session.php';
 	include_once 'libs/functions.php';
@@ -12,6 +12,11 @@
 	{
 		redirect_to("index.php");
 	}
+/* 	if(!$session->check_permission_level($page_id))
+	{
+		echo "<script>alert(\"You have not permission to access this page.\");</script>";
+		redirect_to("index.php");
+	} */
 
 	?> 
 

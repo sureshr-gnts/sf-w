@@ -76,7 +76,7 @@ if($mode == "user")
 
   }
              
-		
+
 
 if($mode == "user_edit")
   {
@@ -86,8 +86,9 @@ if($mode == "user_edit")
   	$status=$_REQUEST["status"];
   	
   		$qry="UPDATE ".TBL_ADMIN." SET `username`='".$_REQUEST["username"]."',
-           `name`='".$_REQUEST["name"]."', `isAdmin`='".$_REQUEST["account_type"]."', `isActive`='".$_REQUEST["status"]."' WHERE `id`='".$_REQUEST["id"]."';";
+           `name`='".$_REQUEST["name"]."', `isAdmin`='".$_REQUEST["account_type"]."', `isActive`='".$_REQUEST["status"]."', `modifyAt`=NOW() WHERE `id`='".$_REQUEST["id"]."';";
   		$result= $database->query( $qry );
+
 
   		if($result)
   		{
@@ -107,18 +108,22 @@ if($mode == "user_edit")
   		$id=$_REQUEST["id"];
   		global $database, $db;
   		$qry_update="DELETE FROM `".TBL_ADMIN."` WHERE `id`='".$id."' ";
+  		
+  		$result_update = $database->query( $qry_update );
+  		
+  		$qry_update="DELETE FROM `".TBL_PERMISSIONS."` WHERE `user_id`='".$id."' ";
   		 
   		$result_update = $database->query( $qry_update );
   		if($result_update)
   		{
   				$msg="User deleted successfully!.";
-  				redirect_to('user.php?msg='.$msg);
+  				redirect_to('user.php');
   			}
   			else{
   				$error="User Delete Failed!.";
   				//echo "<script type='text/javascript'> alert('Deleting Successfully.!.');</script>";
   				//redirect_to('upload.php');
-  				redirect_to('user.php?error='.$error);
+  				redirect_to('user.php');
   			}
   	
   	

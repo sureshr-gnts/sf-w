@@ -1,3 +1,25 @@
+<?php 
+
+	$page_id="";
+	include_once 'libs/class.database.php';
+	include_once 'libs/class.session.php';
+	include_once 'libs/functions.php';
+	session_start();
+
+
+	$session= new Session();
+	if(!$session->has_logged_in())
+	{
+		redirect_to("index.php");
+	}
+/* 	if(!$session->check_permission_level($page_id))
+	{
+		echo "<script>alert(\"You have not permission to access this page.\");</script>";
+		redirect_to("index.php");
+	} */
+
+	?> 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,6 +73,24 @@
                     </ol>
                 </section>
 
+                
+                
+                                                
+            <?php 
+            
+            global $database, $db;
+            $qry="SELECT * from `".TBL_DOGOF_THEWEEK."`";
+            $result = $database->query( $qry );
+/* 			
+print_r($result);
+exit; */
+            ?>
+                      
+                
+                
+                
+                
+                
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
@@ -64,38 +104,50 @@
                                                 <th>NAME OF THE DOG</th>
                                                 <th>AREA</th>
                                                 <th>MESSAGE</th>
-                                                <th>ACTION</th>
+                                                <th style="width: 95px;">ACTION</th>
                                                 <th>STATUS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mani</td>
-                                                <td>Adayar</td>
-                                                <td>Defeat the Stone Guard in Mogu'shan Vaults on Normal or Heroic difficulty</td>
-                                                <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp	<button class="btn btn-xs bg-maroon">DELETE</button></td>
-                                                <td><button class="btn btn-xs bg-olive">ACTIVE</button></td>
+                                        				<?php 
+                                                        $j=0;
+                                                        while($row = $database->fetch_array( $result ))
+                                                        {
+
+                                                        ?>
+                                        	<tr class="odd">
+                                        		<td> <?php echo $j+1; ?></td>
+                                        		<td><?php echo $row['dog_name']; ?></td>
+                                        		<td><?php echo $row['dog_area']; ?></td>
+                                        		<td><?php echo $row['message']; ?></td>
+												<td style="width: 95px;">
+                                                <a href="dogofweek_edit.php?id=<?php echo $row['dog_id']; ?>">
+                                                    <button class="btn btn-xs bg-maroon">EDIT</button>
+                                                </a>
+                                                <a href="dogofweek_actions.php?mode=user_delete&id=<?php echo $row['dog_id']; ?>" onclick="return confirm('Are You Sure To Delete')">
+                                                    <button class="btn btn-xs btn-danger delete_confirm">DELETE</button>
+                                                </a>
+                            	
+                            					</td>
+                                        		<td>
+                                                     <?php if($row['status'] == "approved")
+                                                     				{?>
+                                                     						<button class="btn btn-xs bg-olive">APPROVED</button>
+                                                     <?php } elseif($row['status'] == "pending")
+                                                                 	{?>
+                                                                             <button class="btn btn-xs bg-orange">PENDING</button>
+                                                     <?php } elseif($row['status'] == "rejected")
+                                                     				{?>
+                                                     						 <button class="btn btn-xs bg-orange">REJECTED</button>
+                                                     <?php }?>
+                                                 </td>
+
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Tommy</td>
-                                                <td>Nungambakkam</td>
-                                                <td>Defeat the Stone Guard in Mogu'shan Vaults on Normal or Heroic difficulty</td>
-                                                <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp	<button class="btn btn-xs bg-maroon">DELETE</button></td>
-                                                <td><button class="btn btn-xs bg-orange">PENDING</button></td>
-                                            </tr>
+                                            			<?php 
+                                                                $j++;
+                                                                }
+                                                        ?>
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>S.NO</th>
-                                                <th>NAME OF THE DOG</th>
-                                                <th>AREA</th>
-                                                <th>MESSAGE</th>
-                                                <th>ACTION</th>
-                                                <th>STATUS</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
