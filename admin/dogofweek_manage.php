@@ -124,7 +124,7 @@ exit; */
                                                 <a href="dogofweek_edit.php?id=<?php echo $row['dog_id']; ?>">
                                                     <button class="btn btn-xs bg-maroon">EDIT</button>
                                                 </a>
-                                                <a href="dogofweek_actions.php?mode=user_delete&id=<?php echo $row['dog_id']; ?>" onclick="return confirm('Are You Sure To Delete')">
+                                                <a href="dogofweek_actions.php?mode=post_delete&id=<?php echo $row['dog_id']; ?>" onclick="return confirm('Are You Sure To Delete')">
                                                     <button class="btn btn-xs btn-danger delete_confirm">DELETE</button>
                                                 </a>
                             	
@@ -138,7 +138,7 @@ exit; */
                                                                              <button class="btn btn-xs bg-orange">PENDING</button>
                                                      <?php } elseif($row['status'] == "rejected")
                                                      				{?>
-                                                     						 <button class="btn btn-xs bg-orange">REJECTED</button>
+                                                     						 <button class="btn btn-xs bg-navy">REJECTED</button>
                                                      <?php }?>
                                                  </td>
 

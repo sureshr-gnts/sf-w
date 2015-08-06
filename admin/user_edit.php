@@ -84,7 +84,20 @@ if(isset($_SESSION["userEdit_formData"])){
                 <section class="content">
 				<!-- form start -->
 				
-				
+				<?php if (isset($_SESSION["msg"])) { ?>
+            		<div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["msg"]; ?>
+                	</div>
+                <?php } ?>
+                <?php if (isset($_SESSION["error"])) { ?>
+            	<div class="alert alert-danger alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["error"]; ?>
+                </div>
+                <?php } ?>
 				
 				
 				<?php 
@@ -192,6 +205,7 @@ if(isset($_SESSION["userEdit_formData"])){
 </body>
 </html>
 <?php
-unset($_SESSION);
+unset($_SESSION["msg"]);
+unset($_SESSION["error"]);
 
 ?>

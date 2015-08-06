@@ -1,3 +1,22 @@
+<?php 
+error_reporting (E_ALL ^ E_NOTICE);
+$page_id="dogof_theweek";
+include_once 'libs/class.database.php';
+include_once 'libs/class.session.php';
+include_once 'libs/functions.php';
+session_start();
+$session= new Session();
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
+
+//if(!$session->check_permission_level($page_id))
+//{
+//    echo "<script>alert(\"You have not permission to access this page.\");</script>";
+//     redirect_to("home.php");
+//}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,6 +70,20 @@
                     </ol>
                 </section>
 		<section class="content">
+				<?php if (isset($_SESSION["msg"])) { ?>
+            		<div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["msg"]; ?>
+                	</div>
+                <?php } ?>
+                <?php if (isset($_SESSION["msg1"])) { ?>
+            	<div class="alert alert-danger alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["msg1"]; ?>
+                </div>
+                <?php } ?>
 				<!-- form start -->
                                 <form role="form">
 				     <div class="col-lg-12">
@@ -60,6 +93,19 @@
 				     </div>
                                 </form>
                 </section>
+                
+                
+                
+            <?php 
+            global $database, $db;
+            $qry="SELECT * from `".TBL_NEWS_CAT."`";
+            $result = $database->query( $qry );
+            ?>
+                
+                
+                
+                
+                
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
@@ -79,18 +125,42 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        				<?php 
+                                                        $j=0;
+                                                        while($row = $database->fetch_array( $result ))
+                                                        {
+
+                                                        ?>
                                             <tr>
-                                                <td>1</td>
-                                                <td>CATS</td>
-                                                <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp	<button class="btn btn-xs bg-maroon">DELETE</button></td>
-                                                <td><button class="btn btn-xs bg-olive">ACTIVE</button></td>
+                                                <td> <?php echo $j+1; ?></td>
+                                                <td><?php echo $row['category_name']; ?></td>
+                                                <td style="width: 95px;">
+                                                <a href="editnews_category.php?id=<?php echo $row['id']; ?>">
+                                                    <button class="btn btn-xs bg-maroon">EDIT</button>
+                                                </a>
+                                                <a href="category_action.php?mode=newscategory_delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are You Sure To Delete')">
+                                                    <button class="btn btn-xs btn-danger delete_confirm">DELETE</button>
+                                                </a>
+                            	
+                            					</td>
+                                        		<td>
+                                                     <?php if($row['status'] == "approved")
+                                                     				{?>
+                                                     						<button class="btn btn-xs bg-olive">APPROVED</button>
+                                                     <?php } elseif($row['status'] == "pending")
+                                                                 	{?>
+                                                                             <button class="btn btn-xs bg-orange">PENDING</button>
+                                                     <?php } elseif($row['status'] == "rejected")
+                                                     				{?>
+                                                     						 <button class="btn btn-xs bg-navy">REJECTED</button>
+                                                     <?php }?>
+                                                 </td>
+
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>DOGS</td>
-                                                <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp	<button class="btn btn-xs bg-maroon">DELETE</button></td>
-                                                <td><button class="btn btn-xs bg-orange">PENDING</button></td>
-                                            </tr>
+                                            			<?php 
+                                                                $j++;
+                                                                }
+                                                        ?>
                                         </tbody>
                                     </table>
                                 </div><!-- /.box-body -->
@@ -126,3 +196,8 @@
 
     </body>
 </html>
+<?php
+unset($_SESSION["msg"]);
+unset($_SESSION["msg1"]);
+
+?>

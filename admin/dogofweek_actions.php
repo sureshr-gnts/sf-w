@@ -185,30 +185,27 @@ else
 }
 		
 
-if($mode == "news_delete")
+if($mode == "post_delete")
 {
-	$news_id=$_REQUEST["news_id"];
+	$dog_id=$_REQUEST["id"];
+	/* print_r($dog_id);
+	exit; */
 	global $database, $db;
-	$qry_update="DELETE FROM `".TBL_NEWS."` WHERE `newsid`='".$news_id."' ";
+	$qry_update="DELETE FROM `".TBL_DOGOF_THEWEEK."` WHERE `dog_id`='".$dog_id."' ";
    
 	$result_update = $database->query( $qry_update );
 	if($result_update)
-	{
-		
- 	  	$qry_update1="DELETE FROM `".TBL_MEDIA."` WHERE `news_id`='".$news_id."' ";
-		$result_update1 = $database->query( $qry_update1 );
-		if($result_update1)
 		{
-			$msg="News deleted successfully!.";
+			$msg="Post deleted successfully!.";
 			//echo "<script type='text/javascript'> alert('Deleted Successfully.!.');</script>";
 			//redirect_to('upload.php');
-		             redirect_to('manage_news.php?msg='.$msg);
+		             redirect_to('dogofweek_manage.php');
 		}
 		else{
 			$error="File Delete Failed!.";
 		//echo "<script type='text/javascript'> alert('Deleting Successfully.!.');</script>";
 		//redirect_to('upload.php');
-                  redirect_to('manage_news.php?error='.$error);
+                  redirect_to('dogofweek_manage.php');
 		}		
                 
 	}
@@ -217,86 +214,10 @@ if($mode == "news_delete")
 		$error="Deleting failed!.";
 		//echo "<script type='text/javascript'> alert('Deleting Successfully.!.');</script>";
 		//redirect_to('upload.php');
-                  redirect_to('manage_news.php?error='.$error);
+                  redirect_to('dogofweek_manage.php');
 	}
 	
-}
 
-if($mode == "news_approve")
-{
-    $user=$_SESSION['MGZN_username'];
-
-	$news_id=$_REQUEST["news_id"];
-	global $database, $db;
-	$qry_update="UPDATE `".TBL_NEWS."` SET `status`='approved',`approved_by`='".$user."',`approved_dt`=NOW() WHERE `newsid`='".$news_id."' ";
-	$result_update = $database->query( $qry_update );
-	if($result_update>0)
-	{
-		$msg="News Approved!.";
-		echo "<script type='text/javascript'> alert('Updated Successfully.!.');</script>";
-		redirect_to('upload.php');
-	}
-	else
-	{
-		$error="News Approval Failed!.";
-		echo "<script type='text/javascript'> alert('Updating Failed.!.');</script>";
-		redirect_to('upload.php');
-	}
-
-}
-
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if($mode == "changestatus")
-{
-    $user=$_SESSION['MGZN_username'];
-	$news_id=$_REQUEST["news_id"];
-        $status=$_REQUEST["status"];
-        $change_status="";
-        if($status == "approved")
-        {
-            $change_status="pending";
-        }
-        elseif($status == "pending")
-        {
-            $change_status="approved";
-        }
-        if($change_status != "")
-        {
-            global $database, $db;
-            $qry_update="UPDATE `".TBL_NEWS."` SET `status`='".$change_status."',`approved_by`='".$user."',`approved_dt`=NOW()  WHERE `newsid`='".$news_id."' ";
-            $result_update = $database->query( $qry_update );
-            if($result_update>0)
-            {
-                    $msg="News Status changed as ".$change_status;
-                   // echo "<script type='text/javascript'> alert('Updated Successfully.!.');</script>";
-                    redirect_to('manage_news.php?msg='.$msg);
-                    exit;
-            }
-            else
-            {
-                    $error="News status changing failed.";
-                   // echo "<script type='text/javascript'> alert('Updating Failed.!.');</script>";
-                   // redirect_to('upload.php');
-                     redirect_to('manage_news.php?error='.$error);
-                    exit;
-            }
-        }
-    else
-        {
-                    $error="Something wrong is happened.";
-                   // echo "<script type='text/javascript'> alert('Updating Failed.!.');</script>";
-                   // redirect_to('upload.php');
-                     redirect_to('manage_news.php?error='.$error);
-                    exit;
-        }
-
-}
 
 ?>
 

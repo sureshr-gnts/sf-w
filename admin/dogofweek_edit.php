@@ -1,3 +1,25 @@
+<?php 
+
+	$page_id="";
+	include_once 'libs/class.database.php';
+	include_once 'libs/class.session.php';
+	include_once 'libs/functions.php';
+	session_start();
+
+
+	$session= new Session();
+	if(!$session->has_logged_in())
+	{
+		redirect_to("index.php");
+	}
+/* 	if(!$session->check_permission_level($page_id))
+	{
+		echo "<script>alert(\"You have not permission to access this page.\");</script>";
+		redirect_to("index.php");
+	} */
+
+	?>
+	
 <!DOCTYPE html>
 <?php 
 error_reporting (E_ALL ^ E_NOTICE);
@@ -6,11 +28,11 @@ include_once 'libs/class.database.php';
 include_once 'libs/class.session.php';
 include_once 'libs/functions.php';
 session_start();
-$session= new Session();
-if(!$session->has_logged_in())
-{
-	redirect_to("index.php");
-}
+//$session= new Session();
+//if(!$session->has_logged_in())
+//{
+//	redirect_to("index.php");
+//}
 
 //if(!$session->check_permission_level($page_id))
 //{
@@ -53,12 +75,6 @@ if(isset($_SESSION["newsEdit_formData"])){
         <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/tinymce/tinymce.js"></script>
-		<script type="text/javascript">
-        	tinymce.init({
-            		selector: "#mytextarea"
-        	});
-    	</script>
 
     </head>
     <body class="pace-done skin-black fixed">
@@ -91,60 +107,99 @@ if(isset($_SESSION["newsEdit_formData"])){
 
                 <!-- Main content -->
                 <section class="content">
+                
+                
+                
+            <?php 
+            global $database, $db;
+            $qry="SELECT * from `".TBL_DOGOF_THEWEEK."`
+			         WHERE `dog_id`='".$_REQUEST['id']."' ";
+            
+            $result = $database->query( $qry );
+            $row = $database->fetch_array( $result );
+           
+            ?>
+                
+                
+                
 				<!-- form start -->
                                 <form role="form" action="dogofweek_actions.php" method="post" autocomplete="off" enctype="multipart/form-data">
-								<input type="hidden" name="mode" value="post_new" />
-                                     <div class="col-lg-6">
+								<input type="hidden" name="mode" value="post_edit" />
+								<input type="hidden" id="id" name="id" value="<?php echo $_REQUEST['id']; ?>">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="dog_name">NAME OF THE DOG</label>
-                                            <input type="text" class="form-control" id="dog_name" name="dog_name">
+                                            <input type="text" class="form-control" id="dog_name" name="dog_name" value="<?php echo $row['dog_name']; ?>">
                                         </div>
 				     				</div>
 				     				<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="area">AREA</label>
-                                            <input type="text" class="form-control" id="dog_area" name="dog_area">
+                                            <input type="text" class="form-control" id="dog_area" name="dog_area" value="<?php echo $row['dog_area']; ?>">
                                         </div>
-                                     </div>
-				     				 <div class="col-lg-6">
+                                    </div>
+				     				<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="place">PLACE</label>
-                                            <input type="text" class="form-control" id="dog_place" name="dog_place">
+                                            <input type="text" class="form-control" id="dog_place" name="dog_place" value="<?php echo $row['dog_place']; ?>">
                                         </div>
-                                     </div>
-				     				 <div class="col-lg-6">
+                                    </div>
+				     				<div class="col-lg-6">
                                     	<div class="form-group">
                                             <label>DATE</label>
                                         	<div class="input-group">
                                             		<div class="input-group-addon">
-                                            		    <i clasmessages="fa fa-calendar"></i>
+                                            		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['created_dt']; ?>" name="date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
-                                     </div>
-				     				 <div class="col-lg-6">
+                                    </div>
+				     				<div class="col-lg-6">
                                         <div class="form-group">
                                             <label>MESSAGE</label>
-                                            <textarea class="form-control" name="message" rows="6"></textarea>
+                                            <textarea class="form-control" name="message" rows="6"><?php echo $row['message']; ?></textarea>
                                         </div>
-				     				 </div>
-				     				 <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>STATUS</label>
+                                            		<?php if($_SESSION['VFA_isAdmin'] == 1)
+           															{      ?>
+                                                           <select class="form-control" id="status" name="status">
+                                                               <option <?php if($row['status'] == "approved"){ echo 'selected=true';}?>  value="approved">Approved</option>
+                                                               <option <?php if($row['status'] == "pending"){ echo 'selected=true';}?> value="pending">Pending</option>
+                                                               <option <?php if($row['status'] == "rejected"){ echo 'selected=true';}?> value="rejected">Rejected</option>
+                                                           </select>
+                                                                                             
+                                                     <?php
+                                                                     } 
+                                                           else{  ?>
+                            								<input type="text" value="<?php echo $row['status']; ?>" name="status" readonly="true">  
+                                                                                      <?php } ?>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+				     
+				     
+				     <div class="row">
+				     				<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="image">IMAGE</label>
-                                            <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)">
+                                            <input type="file" id="image" name="image" accept="image/*"  onchange="showimagepreview1(this)">
                                         </div>
                                         <div class="form-group">
                                         <div class="col-md-3">
-                                             <img id="imgprvw1" alt="upload new image" src="img/upload.png" />
+                                             <img id="imgprvw1" alt="uploaded image preview" src="images/dogofweek/<?php echo $row['image_url']; ?>" />
                                         </div>
                                         </div>
-				     				 </div>
-				     				 <div class="col-lg-12">
+				     
+				     				</div>
+				     				<div class="col-lg-12">
                                     	    <div class="box-footer">
                                             <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
 					    					</div>
-                                     </div>
+                                    </div>
 				     </div>
                                 </form>
                 </section>
@@ -219,7 +274,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                 });
             });
         </script>
-        <script>
+         <script>
                function showimagepreview1(input) {
                if (input.files && input.files[0]) {
                var filerdr = new FileReader();

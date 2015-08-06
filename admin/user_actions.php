@@ -27,49 +27,24 @@ if($mode == "user")
 	$account_type=$_REQUEST["account_type"];
 	$status=$_REQUEST["status"];
     $_SESSION["userEdit_formData"]=$_REQUEST;
-    
-
-
-    $user->permission = sizeof($_REQUEST['permission']);
-    $_SESSION['user']['permissions'][999]=999;
-    
-    if( $user->permission > 0 )
-    {
-    	$_SESSION['user']['permissions']=array();
-    	foreach ($_REQUEST['permission'] as $k => $v )
-    	{
-    		$_SESSION['user']['permissions'][$k] = $k;
-    	}
-    }
                      
 	
 
 	        global $database, $db;
 	        
-			$qry_update="INSERT INTO `".TBL_ADMIN."` (`username`,`password`,`name`,`isAdmin`,`isActive`)"
-                        . " VALUES ('".$username."','".$password."', '".$name."','".$account_type."','".$status."');";
+			$qry_update="INSERT INTO `".TBL_ADMIN."` (`username`,`password`,`name`,`account_type`,`isActive`,`createdAt`)"
+                        . " VALUES ('".$username."','".$password."', '".$name."','".$account_type."','".$status."',NOW());";
 			
 			$result_upload = $database->query( $qry_update );
-			$id = $database->insert_id();
-		//	print_r($id);exit;
-			foreach ( $_REQUEST['permission'] as $k )
-			{
-				$sql = "INSERT INTO ".TBL_PERMISSIONS. " (user_id ,permission_name,w_user) VALUES ( '".$id."', '{$k}','".$account_type."' );";
-				if ( $database->query( $sql ) )
-					$success = true;
-					
-				//unset($sql);
-			}
-			
 
                   if($result_upload >0)
 	{
-		$msg="Updated successfully!.";
+		$_SESSION["msg"]="Updated successfully!.";
 		redirect_to('user.php');;
 	}
 	else
 	{
-		$error="Updating failed!.";
+		$_SESSION["error"]="Updating failed!.";
 		redirect_to('user_new.php');
 	}
 
@@ -86,17 +61,19 @@ if($mode == "user_edit")
   	$status=$_REQUEST["status"];
   	
   		$qry="UPDATE ".TBL_ADMIN." SET `username`='".$_REQUEST["username"]."',
-           `name`='".$_REQUEST["name"]."', `isAdmin`='".$_REQUEST["account_type"]."', `isActive`='".$_REQUEST["status"]."', `modifyAt`=NOW() WHERE `id`='".$_REQUEST["id"]."';";
+           `name`='".$_REQUEST["name"]."', `account_type`='".$_REQUEST["account_type"]."', `isActive`='".$_REQUEST["status"]."', `modifyAt`=NOW() WHERE `id`='".$_REQUEST["id"]."';";
   		$result= $database->query( $qry );
 
 
   		if($result)
   		{
-  			header("Location: user.php?success=updated successfully.");
+  			$_SESSION["msg"]="Updated successfully!.";
+  			header("Location: user.php");
   		}
   		else
   		{
-  			header("Location: user_edit.php?error=updation failed.Please try again.&user_id=".$_REQUEST["user_id"]);
+  			$_SESSION["error"]="Updating failed!.";
+  			header("Location: user.php");
   		}
   		 
   	}
@@ -116,13 +93,11 @@ if($mode == "user_edit")
   		$result_update = $database->query( $qry_update );
   		if($result_update)
   		{
-  				$msg="User deleted successfully!.";
+  				$_SESSION["msg"]="User deleted successfully!.";
   				redirect_to('user.php');
   			}
   			else{
-  				$error="User Delete Failed!.";
-  				//echo "<script type='text/javascript'> alert('Deleting Successfully.!.');</script>";
-  				//redirect_to('upload.php');
+  				$_SESSION["error"]="User Delete Failed!.";
   				redirect_to('user.php');
   			}
   	

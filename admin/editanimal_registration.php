@@ -86,7 +86,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                 <!-- /.sidebar -->
             </aside>
 
-            <!-- Right side column. Contains the navbar and content of the page -->
+            <!--  Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
@@ -103,10 +103,24 @@ if(isset($_SESSION["newsEdit_formData"])){
                 <!-- Main content -->
                 <section class="content">
 				<!-- form start -->
+				
+				
+				
+				
+				<?php 
+            global $database, $db;
+            $qry="SELECT * from `".TBL_ANIMAL."`
+			         WHERE `animal_id`='".$_REQUEST['id']."' ";
+            
+            $result = $database->query( $qry );
+            $row = $database->fetch_array( $result );
+           
+            ?>
+           
 								
 								
 						
-                                <form role="form" action="animal_actions.php" autocomplete="off" method="post" enctype="multipart/form-data">
+                                <form role="form" action="animal_actions.php" method="post" autocomplete="off" enctype="multipart/form-data">
 								<input type="hidden" name="mode" value="post_new" />
 									 <div class="col-lg-12"> 				 
 				     				 <div>
@@ -116,13 +130,13 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="animal_name">NAME OF THE ANIMAL</label>
-                                            <input type="text" class="form-control" id="animal_name" name="animal_name">
+                                            <input type="text" class="form-control" id="animal_name" name="animal_name" value="<?php echo $row['animal_name']; ?>">
                                         </div>
 				     				 	<div class="form-group">
 				     				 		<label for="gender">GENDER</label>
                                             <div class="radio">
-                                                    <input type="radio" name="gender" id="gender" value="male" checked>MALE
-                                                    <input type="radio" name="gender" id="gender" value="female">FEMALE
+                                                    <input <?php if($row['gender']=='male') { echo 'checked="true"';} ?> type = 'radio' name ='gender' value= 'male' id="gender"/> &nbsp;MALE
+                                             		<input <?php if($row['gender']=='female') { echo 'checked="true"';} ?> type = 'radio' name ='gender' value= 'female' id="gender"/> &nbsp;FEMALE
                                             </div>
                                          </div>
                                       </div>
@@ -133,14 +147,14 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="dob" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['dob']; ?>" name="dob" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="age">AGE</label>
-                                            <input type="text" class="form-control" id="age" name="age">
+                                            <input type="text" class="form-control" id="age" value="<?php echo $row['age']; ?>" name="age">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
@@ -148,52 +162,53 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             <label>SPECIES</label>
                                             <select class="form-control" name="species">
                                             	<option value="" disabled selected>Select Species</option>
-                                                <option value="dog">DOG</option>
-                                                <option value="cat">CAT</option>
+                                                <option <?php if($row['species']=='dog') { echo 'selected="true"';} ?> value="dog">DOG</option>
+                                                <option <?php if($row['species']=='cat') { echo 'selected="true"';} ?> value="cat">CAT</option>
                                             </select>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="weight">WEIGHT</label>
-                                            <input type="text" class="form-control" id="weight" name="weight">
+                                            <input type="text" class="form-control" id="weight" value="<?php echo $row['weight']; ?>" name="weight">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="colour">COLOUR</label>
-                                            <input type="text" class="form-control" id="colour" name="colour">
+                                            <input type="text" class="form-control" id="colour" value="<?php echo $row['colour']; ?>" name="colour">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="behaviour">ANIMAL BEHAVIOUR</label>
-                                            <input type="text" class="form-control" id="behaviour" name="behaviour">
+                                            <input type="text" class="form-control" id="behaviour" value="<?php echo $row['behaviour']; ?>" name="behaviour">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="breed">BREED</label>
-                                            <input type="text" class="form-control" id="breed" name="breed">
+                                            <input type="text" class="form-control" id="breed" value="<?php echo $row['breed']; ?>" name="breed">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="location">LIVING LOCATION</label>
-                                            <input type="text" class="form-control" id="location" name="location">
+                                            <input type="text" class="form-control" id="location" value="<?php echo $row['location']; ?>" name="location">
                                         </div>
                                      </div>
 				     				 <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="image">IMAGE</label>
-                                            <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)">
+                                            <input type="file" id="image" name="image" value="<?php echo $row['image']; ?>" accept="image/*" onchange="showimagepreview1(this)">
                                         </div>
                                         <div class="form-group">
                                         <div class="col-md-3">
-                                             <img id="imgprvw1" alt="upload new image" src="img/upload.png" />
+                                             <img id="imgprvw1" alt="uploaded image preview" src="images/animal/<?php echo $row['image']; ?>" />
                                         </div>
                                         </div>
 				     				 </div> 
+				     				 
 				     				 <div class="col-lg-12"> 				 
 				     				 <div>
 										<h4 class="text-green">CARE TAKER INFORMATION</h4>
@@ -204,19 +219,19 @@ if(isset($_SESSION["newsEdit_formData"])){
 				     				 		<label for="relationship">RELATIONSHIP TYPE</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="relationship" id="donor" value="donor" checked>DONOR
-                                                    <input type="radio" name="relationship" id="volunteer" value="volunteer">VOLUNTEER
+                                                    <input <?php if($row['relationship']=='donor') { echo 'checked="true"';} ?> type = 'radio' name ='relationship' value= 'donor' id="relationship"/> &nbsp;DONOR
+                                             		<input <?php if($row['relationship']=='volunteer') { echo 'checked="true"';} ?> type = 'radio' name ='relationship' value= 'volunteer' id="relationship"/> &nbsp;VOLUNTEER
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="relationship" id="owner" value="owner">OWNER
-                                                    <input type="radio" name="relationship" id="care taker" value="care taker">CARE TAKER
+                                                	<input <?php if($row['relationship']=='owner') { echo 'checked="true"';} ?> type = 'radio' name ='relationship' value= 'owner' id="relationship"/> &nbsp;OWNER
+                                             		<input <?php if($row['relationship']=='care taker') { echo 'checked="true"';} ?> type = 'radio' name ='relationship' value= 'care taker' id="relationship"/> &nbsp;CARE TAKER
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                     <input type="radio" name="relationship" id="animal lover" value="animal lover">ANIMAL LOVER
+                                                     <input <?php if($row['relationship']=='animal lover') { echo 'checked="true"';} ?> type = 'radio' name ='relationship' value= 'animal lover' id="relationship"/> &nbsp;ANIMAL LOVER
                                                 </label>
                                             </div>
                                         </div>  
@@ -224,39 +239,39 @@ if(isset($_SESSION["newsEdit_formData"])){
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="donor_no">IF DONOR</label>
-                                            <input type="text" class="form-control" id="donor_no" name="donor_no" placeholder="ENTER YOUR DONOR NUMBER">
+                                            <input type="text" class="form-control" id="donor_no" value="<?php echo $row['donor_id']; ?>" name="donor_no" placeholder="ENTER YOUR DONOR NUMBER">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="volunteer_no">IF VOLUNTEER</label>
-                                            <input type="text" class="form-control" id="volunteer_no" name="volunteer_no" placeholder="ENTER YOUR VOLUNTEER NUMBER">
+                                            <input type="text" class="form-control" id="volunteer_no" value="<?php echo $row['volunteer_id']; ?>" name="volunteer_no" placeholder="ENTER YOUR VOLUNTEER NUMBER">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_name">CARE TAKER NAME</label>
-                                            <input type="text" class="form-control" id="caretaker_name" name="caretaker_name">
+                                            <input type="text" class="form-control" id="caretaker_name" value="<?php echo $row['caretaker_name']; ?>" name="caretaker_name">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_mob">MOBILE NUMBER</label>
-                                            <input type="text" class="form-control" id="caretaker_mob" name="caretaker_mob">
+                                            <input type="text" class="form-control" id="caretaker_mob" value="<?php echo $row['caretaker_mob']; ?>" name="caretaker_mob">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_email">EMAIL</label>
-                                            <input type="text" class="form-control" id="caretaker_email" name="caretaker_email">
+                                            <input type="text" class="form-control" id="caretaker_email" value="<?php echo $row['caretaker_email']; ?>" name="caretaker_email">
                                         </div>
                                         <div class="form-group">
                                             <label>ADDRESS</label>
-                                            <textarea class="form-control" rows="4" id="caretaker_address" name="caretaker_address"></textarea>
+                                            <textarea class="form-control" rows="4" id="caretaker_address" name="caretaker_address"><?php echo $row['caretaker_address']; ?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="feeder_name">FEEDER NAME</label>
-                                            <input type="text" class="form-control" id="feeder_name" name="feeder_name">
+                                            <input type="text" class="form-control" id="feeder_name" value="<?php echo $row['feeder_name']; ?>" name="feeder_name">
                                         </div>
                                     </div>
 				     				
@@ -270,8 +285,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="desex">DESEX</label>
                                             <div class="radio">
-                                                    <input type="radio" name="desex" id="" value="yes" checked>YES
-                                                    <input type="radio" name="desex" id="" value="no">NO
+                                                    <input <?php if($row['desex']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='desex' value= 'yes' id="desex"/> &nbsp;YES
+                                             		<input <?php if($row['desex']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='desex' value= 'no' id="desex"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -282,7 +297,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="desex_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['desex_date']; ?>" name="desex_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
@@ -290,8 +305,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="microchip">MICROCHIP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="microchip" id="" value="yes" checked>YES
-                                                    <input type="radio" name="microchip" id="" value="no">NO
+                                            		<input <?php if($row['microchip']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='microchip' value= 'yes' id="microchip"/> &nbsp;YES
+                                             		<input <?php if($row['microchip']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='microchip' value= 'no' id="microchip"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -302,20 +317,20 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="microchip_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['microchip_date']; ?>" name="microchip_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
                                             <label for="microchip_no">MICROCHIP NUMBER</label>
-                                            <input type="text" class="form-control" id="microchip_no" name="microchip_no">
+                                            <input type="text" class="form-control" value="<?php echo $row['microchip_no']; ?>" id="microchip_no" name="microchip_no">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="arv">ARV</label>
                                             <div class="radio">
-                                                    <input type="radio" name="arv" id="" value="yes" checked>YES
-                                                    <input type="radio" name="arv" id="" value="no">NO
+                                            		<input <?php if($row['arv']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='arv' value= 'yes' id="arv"/> &nbsp;YES
+                                             		<input <?php if($row['arv']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='arv' value= 'no' id="arv"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -326,7 +341,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="arv_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['arv_date']; ?>" name="arv_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
@@ -335,7 +350,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="arv_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['arv_due']; ?>" name="arv_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
@@ -343,8 +358,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="dhpp">DHPPi+L</label>
                                             <div class="radio">
-                                                    <input type="radio" name="dhpp" id="" value="yes" checked>YES
-                                                    <input type="radio" name="dhpp" id="" value="no">NO
+                                                    <input <?php if($row['dhpp']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='dhpp' value= 'yes' id="dhpp"/> &nbsp;YES
+                                             		<input <?php if($row['dhpp']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='dhpp' value= 'no' id="dhpp"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -355,7 +370,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="dhpp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['dhpp_date']; ?>" name="dhpp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
@@ -364,7 +379,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="dhpp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['dhpp_due']; ?>" name="dhpp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
@@ -372,8 +387,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="fvrcp">FVRCP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="fvrcp" id="" value="yes" checked>YES
-                                                    <input type="radio" name="fvrcp" id="" value="no">NO
+                                                    <input <?php if($row['fvrcp']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='fvrcp' value= 'yes' id="fvrcp"/> &nbsp;YES
+                                             		<input <?php if($row['fvrcp']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='fvrcp' value= 'no' id="fvrcp"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -384,7 +399,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="fvrcp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['fvrcp_date']; ?>" name="fvrcp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
@@ -393,7 +408,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="fvrcp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['fvrcp_due']; ?>" name="fvrcp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
@@ -401,8 +416,8 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<div class="form-group">
 				     				 		<label for="deworming">DEWORMING</label>
                                             <div class="radio">
-                                                    <input type="radio" name="deworming" id="" value="yes" checked>YES
-                                                    <input type="radio" name="deworming" id="" value="no">NO
+                                                    <input <?php if($row['deworming']=='yes') { echo 'checked="true"';} ?> type = 'radio' name ='deworming' value= 'yes' id="deworming"/> &nbsp;YES
+                                             		<input <?php if($row['deworming']=='no') { echo 'checked="true"';} ?> type = 'radio' name ='deworming' value= 'no' id="deworming"/> &nbsp;NO
                                             </div>
                                          </div>
                                     </div>
@@ -413,7 +428,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="deworming_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['deworming_date']; ?>" name="deworming_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
@@ -422,14 +437,14 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="deworming_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" value="<?php echo $row['deworming_due']; ?>" name="deworming_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
                                         	</div>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>MEDICAL HISTROY</label>
-                                            <textarea class="form-control" rows="4" id="medical_histroy" name="medical_histroy"></textarea>
+                                            <textarea class="form-control" rows="4" id="medical_histroy" name="medical_histroy"><?php echo $row['medical_histroy']; ?></textarea>
                                         </div>
 				     				</div>
 				     				
@@ -443,11 +458,11 @@ if(isset($_SESSION["newsEdit_formData"])){
 									<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="vet_name">VET NAME</label>
-                                            <input type="text" class="form-control" id="vet_name" name="vet_name">
+                                            <input type="text" class="form-control" value="<?php echo $row['vet_name']; ?>" id="vet_name" name="vet_name">
                                         </div>
                                         <div class="form-group">
                                             <label for="vet_mobile">VET MOBILE NUMBER</label>
-                                            <input type="text" class="form-control" id="vet_mob" name="vet_mob">
+                                            <input type="text" class="form-control" value="<?php echo $row['vet_mob']; ?>" id="vet_mob" name="vet_mob">
                                         </div>
                                      </div>
 									

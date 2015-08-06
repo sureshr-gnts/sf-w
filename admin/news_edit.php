@@ -93,9 +93,9 @@ if(isset($_SESSION["newsEdit_formData"])){
 
 
                 
-                <?php 
+           <?php 
             global $database, $db;
-            $qry="SELECT id,category_name	from `".TBL_NEWS_CAT."` WHERE `status`='approved'  order by category_name asc ";
+            $qry="SELECT id,category_name	from `".TBL_NEWS_CATEGORY."` WHERE `status`='approved'  order by category_name asc ";
             
            $result = $database->query( $qry );
             
@@ -109,9 +109,17 @@ if(isset($_SESSION["newsEdit_formData"])){
             ?>
                 
                 
+            <?php 
+            global $database, $db;
+            $qry="SELECT * from `".TBL_NEWS."`
+			     WHERE `newsid`='".$_REQUEST['id']."' "; 
+            
+            $result = $database->query( $qry );
+            $news_data = $database->fetch_array( $result );
+           
+            ?>
 
-
-
+   
 
 
                                 <form role="form" action="news_actions.php" enctype="multipart/form-data" method="post">
@@ -119,40 +127,40 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="news_title">NEWS TITLE</label>
-                                            <input type="text" class="form-control" id="news_title" name="news_title">
+                                            <input type="text" class="form-control" id="news_title" value="<?php echo $news_data['title']; ?>" name="news_title">
                                         </div>
 				     </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>SELECT CATEGORY</label>
                                             <select class="form-control" id="category" name="category">
-                                                <option value="" disabled selected>Select Category</option>
 									<?php 
 						
 										foreach($data as $val)
-									{
-									?>
-                  					<option <?php if($formd_category == $val['id']) {echo 'selected=true""';} ?> value="<?php echo $val['category_name']; ?>"> <?php echo $val['category_name']; ?> </option>
-                     				<?php } ?>
+										{
+											?>
+                              				<option value="<?php echo $val['category_id']; ?>" <?php if($news_data['news_category']==$val['category_id']){echo "selected";}?>> <?php echo $val['category_name']; ?> </option>
+                     						<?php } ?>
+                     
                                             </select>
                                         </div>
 				     </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>NEWS CONTENT</label>
-                                            <textarea class="form-control" rows="4" id="news_content" name="news_content"></textarea>
+                                            <textarea class="form-control" rows="4" id="news_content" name="news_content"><?php echo $news_data['news_content']; ?></textarea>
                                         </div>
 				     </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="source">SOURCE</label>
-                                            <input type="text" class="form-control" id="source" name="source">
+                                            <input type="text" class="form-control" id="source" value="<?php echo $news_data['source']; ?>" name="source">
                                         </div>
 				     </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="source_url">SOURCE URL</label>
-                                            <input type="text" class="form-control" id="source_url" name="source_url">
+                                            <input type="text" class="form-control" id="source_url" value="<?php echo $news_data['source_url']; ?>" name="source_url">
                                         </div>
 				     </div>
                                      <div class="col-lg-6">

@@ -50,6 +50,21 @@
                         <li class="active">LATEST NEWS</li>
                     </ol>
                 </section>
+                
+                
+                
+                
+                <?php 
+            
+            		global $database, $db;
+            		$qry="SELECT * from `".TBL_DOGOF_THEWEEK."`";
+            		$result = $database->query( $qry );
+            	?>
+                
+                
+                
+                
+                
 
                 <!-- Main content -->
                 <section class="content">
@@ -69,22 +84,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
+                                        				<?php 
+                                                        $j=0;
+                                                        while($row = $database->fetch_array( $result ))
+                                                        {
+
+                                                        ?>
+                                            <tr class="odd">
+                                        		<td> <?php echo $j+1; ?></td>
                                                 <td>Birds Day</td>
                                                 <td>Birds</td>
                                                 <td>National Bird Day recognizes that birds are non-domesticated animals</td>
                                                 <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp<button class="btn btn-xs btn-danger">DELETE</button></td>
                                                 <td><button class="btn btn-xs bg-orange">PENDING</button></td>
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Pets Day</td>
-                                                <td>PETS</td>
-                                                <td>National pet Day recognizes that dpgs are non-domesticated animals</td>
-                                                <td><button class="btn btn-xs bg-maroon">EDIT</button>&nbsp<button class="btn btn-xs btn-danger">DELETE</button></td>
-                                                <td><button class="btn btn-xs bg-olive">ACTIVE</button></td>
-                                            </tr>
+                                            			<?php 
+                                                                $j++;
+                                                                }
+                                                        ?>
                                         </tbody>
                                         
                                     </table>

@@ -6,12 +6,13 @@ include_once 'libs/functions.php';
 include_once 'libs/tables.config.php';
 session_start();
 $session= new Session();
-//if(!$session->has_logged_in())
-//{
-//	redirect_to("index.php");
-//}
-$target_path = "images/animal registration/";
-
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
+$target_path = "images/animal/";
+/* print_r($_SESSION['VFA_username']);
+exit; */
 $mode=$_REQUEST["mode"];
 $image_extensions_allowed = array('jpg', 'jpeg', 'png', 'gif','bmp');
 if($mode=="post_new")
@@ -85,7 +86,7 @@ if(($fileSize<=500000000))
 		$fileType = $_FILES['image']['type']; 
 		
 
-	 $qry_add="INSERT INTO `".TBL_ANIMAL."` (`animal_name`, `gender`, `dob`, `age`, `species`, `weight`, `colour`, `behaviour`, `breed`, `location`, `image`, `relationship`, `donor_no`, `volunteer_no`, `caretaker_name`, `caretaker_mob`, `caretaker_email`, `caretaker_address`, `feeder_name`, `desex`, `desex_date`, `microchip`, `microchip_date`, `microchip_no`, `arv`, `arv_date`, `arv_due`, `dhpp`, `dhpp_date`, `dhpp_due`, `fvrcp`, `fvrcp_date`, `fvrcp_due`, `deworming`, `deworming_date`, `deworming_due`, `medical_histroy`, `vet_mob`, `vet_name`) VALUES ('".$animal_name."', '".$gender."', '".$dob."', '".$age."', '".$species."', '".$weight."', '".$colour."', '".$behaviour."', '".$breed."', '".$location."', '".$fileName."', '".$relationship."', '".$donor_no."', '".$volunteer_no."', '".$caretaker_name."', '".$caretaker_mob."', '".$caretaker_email."', '".$caretaker_address."', '".$feeder_name."', '".$desex."', '".$desex_date."', '".$microchip."', '".$microchip_date."', '".$microchip_no."', '".$arv."', '".$arv_date."', '".$arv_due."', '".$dhpp."', '".$dhpp_date."', '".$dhpp_due."', '".$fvrcp."', '".$fvrcp_date."', '".$fvrcp_due."', '".$deworming."', '".$deworming_date."', '".$deworming_due."', '".$medical_histroy."', '".$vet_mob."', '".$vet_name."');";
+	 $qry_add="INSERT INTO `".TBL_ANIMAL."` (`animal_name`, `gender`, `dob`, `age`, `species`, `weight`, `colour`, `behaviour`, `breed`, `location`, `image`, `relationship`, `donor_id`, `volunteer_id`, `caretaker_name`, `caretaker_mob`, `caretaker_email`, `caretaker_address`, `feeder_name`, `desex`, `desex_date`, `microchip`, `microchip_date`, `microchip_no`, `arv`, `arv_date`, `arv_due`, `dhpp`, `dhpp_date`, `dhpp_due`, `fvrcp`, `fvrcp_date`, `fvrcp_due`, `deworming`, `deworming_date`, `deworming_due`, `medical_histroy`, `vet_mob`, `vet_name`, `created_by`) VALUES ('".$animal_name."', '".$gender."', '".$dob."', '".$age."', '".$species."', '".$weight."', '".$colour."', '".$behaviour."', '".$breed."', '".$location."', '".$fileName."', '".$relationship."', '".$donor_no."', '".$volunteer_no."', '".$caretaker_name."', '".$caretaker_mob."', '".$caretaker_email."', '".$caretaker_address."', '".$feeder_name."', '".$desex."', '".$desex_date."', '".$microchip."', '".$microchip_date."', '".$microchip_no."', '".$arv."', '".$arv_date."', '".$arv_due."', '".$dhpp."', '".$dhpp_date."', '".$dhpp_due."', '".$fvrcp."', '".$fvrcp_date."', '".$fvrcp_due."', '".$deworming."', '".$deworming_date."', '".$deworming_due."', '".$medical_histroy."', '".$vet_mob."', '".$vet_name."', '".$_SESSION['VFA_username']."');";
 			$result_upload = $database->query( $qry_add );
 
 	if($result_upload>0)

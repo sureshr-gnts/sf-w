@@ -73,7 +73,20 @@ if(isset($_SESSION["userEdit_formData"])){
                 <!-- Main content -->
                 <section class="content">
 				<!-- form start -->
-				
+				<?php if (isset($_SESSION["msg"])) { ?>
+            		<div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["msg"]; ?>
+                	</div>
+                <?php } ?>
+                <?php if (isset($_SESSION["error"])) { ?>
+            	<div class="alert alert-danger alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["error"]; ?>
+                </div>
+                <?php } ?>
 				
 
 				
@@ -118,38 +131,7 @@ if(isset($_SESSION["userEdit_formData"])){
                                             </select>
                                         </div>
                                       </div>
-                                      <div class="col-lg-12"> 				 
-				     				 <div>
-										<h3 class="text-green">Set Permissions for user</h3>
-									</div>
-									<div>
-										<h4 class="text-red">(Please select atleast one user permission)</h4>
-									</div>
-									</div>
-									
-									<!-- checkbox -->
-									<div class="col-lg-12"> 
-									
-									<?php 
-					                   foreach ($lang['select']['user_permissions'] as $key => $value){
-					                   //print_r($lang['select']['admin_permissions']);
-				                    ?>
-									
-									
-                                        <div class="form-group">
-                                            <div class="checkbox">
-                                                    <input type="checkbox" name="permission[<?php echo $key; ?>]" id="permission" value="<?php echo $key; ?>">
-                                                <label>
-                                                    <?php echo $value;?>
-                                                </label>
-                                            </div>
-										<?php 
-				                          }
-				                        ?>
-                                        </div>
-                                     </div>
-									
-									
+
 									<div class="col-lg-12"> 
                                     	<div class="box-footer">
                                             <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
@@ -168,3 +150,8 @@ if(isset($_SESSION["userEdit_formData"])){
 
 </body>
 </html>
+<?php
+unset($_SESSION["msg"]);
+unset($_SESSION["error"]);
+
+?>

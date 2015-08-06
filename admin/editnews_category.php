@@ -82,18 +82,51 @@ if(isset($_SESSION["categoryEdit_formData"])){
                                         <b>Alert!</b> <?php echo $_SESSION["msg"]; ?>
                 </div>
                 <?php } ?>
+                
+                
+                <?php 
+            global $database, $db;
+            $qry="SELECT * from `".TBL_NEWS_CAT."`
+			         WHERE `id`='".$_REQUEST['id']."' ";
+            
+            $result = $database->query( $qry );
+            $row = $database->fetch_array( $result );
+           
+            ?>
+                
+                
 				<!-- form start -->
-                                <form role="form" action="category_action.php" id="addnews_category" enctype="multipart/form-data" method="post">
-								<input type="hidden" name="mode" value="addnews_category" />
+                                <form role="form" action="category_action.php" id="newscategory_edit" enctype="multipart/form-data" method="post">
+								<input type="hidden" name="mode" value="newscategory_edit" />
+								<input type="hidden" id="id" name="id" value="<?php echo $_REQUEST['id']; ?>">
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="category_name">CATEGORY NAME</label>
-                                            <input type="text" class="form-control" id="category_name" name="category_name">
+                                            <input type="text" class="form-control" id="category_name" value="<?php echo $row['category_name']; ?>" name="category_name">
                                         </div>
-                                    	    <div class="box-footer">
+                                        <div class="form-group">
+                                            <label>STATUS</label>
+                                            		<?php if($_SESSION['VFA_isAdmin'] == 1)
+           															{      ?>
+                                                           <select class="form-control" id="status" name="status">
+                                                               <option <?php if($row['status'] == "approved"){ echo 'selected=true';}?>  value="approved">Approved</option>
+                                                               <option <?php if($row['status'] == "pending"){ echo 'selected=true';}?> value="pending">Pending</option>
+                                                               <option <?php if($row['status'] == "rejected"){ echo 'selected=true';}?> value="rejected">Rejected</option>
+                                                           </select>
+                                                                                             
+                                                     <?php
+                                                                     } 
+                                                           else{  ?>
+                            								<input type="text" value="<?php echo $row['status']; ?>" name="status" readonly="true">  
+                                                                                      <?php } ?>
+                                            
+                                            
+                                            
+                                        </div>
+                                    	<div class="box-footer">
                                             <button type="submit" value="Save" name="action" class="btn btn-primary">SUBMIT</button>
-					    </div>
-                                    	</div>
+					    				</div>
+                                    </div>
 				     </div>
                                 </form>
                 </section>
