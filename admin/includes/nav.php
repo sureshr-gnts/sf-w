@@ -1,9 +1,9 @@
 			<div class="user-panel">
                         <div class="pull-left image">
-                            <img src="img/avatar3.png" class="img-circle" alt="User Image" />
+                            <img src="images/user/<?php echo $_SESSION['VFA_image']; ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p>Hello, Admin</p>
+                            <p>Hello, <?php echo $_SESSION['VFA_username']; ?></p>
 
                             <i class="fa fa-circle text-success"></i> Online</a>
                         </div>
@@ -15,7 +15,7 @@
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="aboutus.php">
                                 <i class="fa fa-th"></i> <span>About Us</span>
                             </a>
@@ -29,13 +29,19 @@
                             <a href="adoptionrate.php">
                                 <i class="fa fa-dashboard"></i> <span>Adoption Rate</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="animal_registration.php">
-                                <i class="fa fa-dashboard"></i> <span>Animal Registration</span>
-                            </a>
-                        </li>
+                        </li> -->
                         <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-paw"></i>
+                                <span>Animal Registration</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="animal_registration.php"><i class="fa fa-angle-double-right"></i>Create Entry</a></li>
+                                <li><a href="manageanimal_registration.php"><i class="fa fa-angle-double-right"></i>Manage Entry</a></li>
+                            </ul>
+                        </li>
+<!--                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-bar-chart-o"></i>
                                 <span>Dog of the Week</span>
@@ -146,16 +152,6 @@
                                 <i class="fa fa-dashboard"></i> <span>Adopt</span>
                             </a>
                         </li>
-						<!-- <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-edit"></i> <span>Adopt</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="adopt_new.php"><i class="fa fa-angle-double-right"></i>Create New</a></li>
-                                <li><a href="adopt_manage.php"><i class="fa fa-angle-double-right"></i>Manage</a></li>
-                            </ul>
-                        </li> -->
 						<li class="treeview">
                             <a href="#">
                                 <i class="fa fa-edit"></i> <span>Poll</span>
@@ -205,10 +201,14 @@
                                 <li><a href="faq_new.php"><i class="fa fa-angle-double-right"></i>Post New</a></li>
                                 <li><a href="faq_manage.php"><i class="fa fa-angle-double-right"></i>Manage</a></li>
                             </ul>
-                        </li>
+                        </li> -->
+                         <?php if($_SESSION['VFA_isAdmin'] == 1)
+           					{      ?>
                         <li>
                             <a href="user.php">
-                                <i class="fa fa-dashboard"></i> <span>User</span>
+                                <i class="fa fa-users"></i> <span>User</span>
                             </a>
                         </li>
+                        <?php
+                            } 		?>
                     </ul>

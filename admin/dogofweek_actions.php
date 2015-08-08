@@ -6,10 +6,10 @@ include_once 'libs/functions.php';
 include_once 'libs/tables.config.php';
 session_start();
 $session= new Session();
-//if(!$session->has_logged_in())
-//{
-//	redirect_to("index.php");
-//}
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
 $target_path = "images/dogofweek/";
 
 $mode=$_REQUEST["mode"];

@@ -21,9 +21,11 @@ public function set_session($uservalue)
 {
     $_SESSION['VFA_Login']=true;
     $_SESSION['VFA_Userid']=$uservalue["id"];
-    $_SESSION['VFA_isAdmin']=$uservalue["isAdmin"];
+    $_SESSION['VFA_isAdmin']=$uservalue["account_type"];
     $_SESSION['VFA_isactive']=$uservalue["isActive"];
-     $_SESSION['VFA_username']=$uservalue["username"];
+    $_SESSION['VFA_username']=$uservalue["username"];
+    $_SESSION['VFA_image']=$uservalue["image"];
+    $_SESSION['VFA_name']=$uservalue["name"];
    /* print_r($_SESSION['VFA_Userid']);
      exit;  */
   

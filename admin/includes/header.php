@@ -19,20 +19,20 @@ Voice For Animals
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Admin <i class="caret"></i></span>
+                                <span><?php echo $_SESSION['VFA_username']; ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="img/avatar3.png" class="img-circle" alt="User Image" />
+                                    <img src="images/user/<?php echo $_SESSION['VFA_image']; ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        Administrator
+                                        <?php echo $_SESSION['VFA_name']; ?>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Change Password</a>
+                                        <a href="password.php" class="btn btn-default btn-flat">Change Password</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="libs/functions.php?mode=logout" class="btn btn-default btn-flat">Sign out</a>

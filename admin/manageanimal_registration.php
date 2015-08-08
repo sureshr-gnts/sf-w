@@ -1,18 +1,26 @@
-<!DOCTYPE html>
 <?php 
-$page_id="user";
-include_once 'libs/class.database.php';
-include_once 'libs/class.session.php';
-include_once 'libs/functions.php';
-session_start();
-$session= new Session();
-if(!$session->has_logged_in())
-{
-	redirect_to("index.php");
-}
+
+	$page_id="";
+	include_once 'libs/class.database.php';
+	include_once 'libs/class.session.php';
+	include_once 'libs/functions.php';
+	session_start();
 
 
-?>
+	$session= new Session();
+	if(!$session->has_logged_in())
+	{
+		redirect_to("index.php");
+	}
+/* 	if(!$session->check_permission_level($page_id))
+	{
+		echo "<script>alert(\"You have not permission to access this page.\");</script>";
+		redirect_to("index.php");
+	} */
+
+	?> 
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -58,35 +66,15 @@ if(!$session->has_logged_in())
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        USER MANAGEMENT
+                        ANIMAL REGISTRATION
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i>DASHBOARD</a></li>
-                        <li><a href="#">USER</a></li>
+                        <li class="active">ANIMAL REGISTRATION</li>
                     </ol>
                 </section>
 
-                <!-- Main content -->
-                <section class="content">
-                <!-- form start -->
-                <form role="form">
-				     <div class="col-lg-12">
-                     	<div class="box-footer">
-                        <a href="user_new.php" class="btn bg-olive margin pull-right">Add New User</a>
-						</div>
-				     </div>
-                 </form>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box">
-                                <div class="box-body table-responsive">
-                                
-                                
-                                
-                                
-                               
-            					
-                          		<?php if (isset($_SESSION["msg"])) { ?>
+            					<?php if (isset($_SESSION["msg"])) { ?>
             							<div class="alert alert-success alert-dismissable">
                                         <i class="fa fa-ban"></i>
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -94,81 +82,97 @@ if(!$session->has_logged_in())
                 						</div>
                 				<?php } ?>
                 				<?php if (isset($_SESSION["msg1"])) { ?>
-            							<div class="alert alert-success alert-dismissable">
+            							<div class="alert alert-danger alert-dismissable">
                                         <i class="fa fa-ban"></i>
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         <b>Alert!</b> <?php echo $_SESSION["msg1"]; ?>
                 						</div>
-                				<?php } ?>     
-                                
-                                 <?php 
+                				<?php } ?> 
+                
+                                                
+            <?php 
             
-            							global $database, $db;
-            							$qry="SELECT * from `".TBL_ADMIN."`";
-            							$result = $database->query( $qry );
-            					 ?>
-                                
-                                
+            global $database, $db;
+            $qry="SELECT * from `".TBL_ANIMAL."`";
+            $result = $database->query( $qry );
+/* 			
+print_r($result);
+exit; */
+            ?>
+                      
+                
+                
+                
+                
+                
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="box-body table-responsive">
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>S.No</th>
-                                                <th>User Name</th>
-                                                <th>User Type</th>
-                                                <th>Last Login</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>S.NO</th>
+                                                <th>ANIMAL NAME</th>
+                                                <th>SCAN FOUNDATION ID</th>
+                                                <th>SPECIES</th>
+                                                <th>MEDICAL HISTROY</th>
+                                                <th>VETERINARIAN NAME</th>
+                                                <th>VETERINARIAN MOB</th>
+                                                <th style="width: 95px;">ACTION</th>
+                                                <th>STATUS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                        <?php 
+                                        				<?php 
                                                         $j=0;
                                                         while($row = $database->fetch_array( $result ))
                                                         {
 
                                                         ?>
-                                        <tr class="odd">
-                                            <td> <?php echo $j+1; ?></td>
-                                            <td><?php echo $row['username']; ?></td>
-                                            <td>
-                                                <?php 
-                                            		if($row['account_type'] == "1")
-                                                		{
-                                                			echo "Admin";
-
-                                                		}
-                                            			else
-                                            			{
-                                                			echo "Sub-Admin";
-                                            			}
-                                            	 ?>
-                                            </td>
-
-                                            <td><?php echo $row['lastVisit'];?></td>
-                                            <td>
-                                            	<?php 
-                                            		if($row['isActive'] == "1")
-                                                		{
-                                                			echo "Active";
-
-                                                		}
-                                            			else
-                                            			{
-                                                			echo "Inactive";
-                                            			}
-                                            	 ?>
-                                           </td>
-                                            	<td>
-                                                <a href="user_edit.php?id=<?php echo $row['id']; ?>">
+                                        	<tr class="odd">
+                                        		<td><?php echo $j+1; ?></td>
+                                        		<td><?php echo $row['animal_name']; ?></td>
+                                        		<td><?php if($row['sf_id'] == "")
+                                        				{
+                                        						echo "Not Allocated"; }
+                                        					else 
+                                        					{
+                                        						echo $row['sf_id'];
+                                                        }?></td>
+                                        		<td><?php echo $row['species']; ?></td>
+                                        		<td><?php echo $row['medical_histroy']; ?></td>
+                                        		<td><?php echo $row['vet_name']; ?></td>
+                                        		<td><?php echo $row['vet_mob']; ?></td>
+												<td style="width: 95px;">
+                                                <a href="editanimal_registration.php?id=<?php echo $row['animal_id']; ?>">
                                                     <button class="btn btn-xs bg-maroon">EDIT</button>
                                                 </a>
-                                                <a href="user_actions.php?mode=user_delete&id=<?php echo $row['id']; ?>" onclick="return confirm('Are You Sure To Delete')">
-                                                    <button class="btn btn-xs bg-orange delete_confirm">DELETE</button>
+                                                <a href="animal_actions.php?mode=post_delete&id=<?php echo $row['animal_id']; ?>" onclick="return confirm('Are You Sure To Delete')">
+                                                    <button class="btn btn-xs btn-danger delete_confirm">DELETE</button>
                                                 </a>
                             	
                             					</td>
-                                       </tr>
-                                                        <?php 
+                                        		<td>
+                                                     <?php if($row['status'] == "approved")
+                                                     				{?>
+                                                     						<button class="btn btn-xs bg-olive">APPROVED</button>
+                                                     <?php } elseif($row['status'] == "pending")
+                                                                 	{?>
+                                                                             <button class="btn btn-xs bg-orange">PENDING</button>
+                                                     <?php } elseif($row['status'] == "rejected")
+                                                     				{?>
+                                                     						 <button class="btn btn-xs bg-navy">REJECTED</button>
+                                                     <?php } elseif($row['status'] == "")
+                                                     				{?>
+                                                     						<?php echo "No Status"; ?>
+                                                     <?php }?> 
+                                                 </td>
+
+                                            </tr>
+                                            			<?php 
                                                                 $j++;
                                                                 }
                                                         ?>
@@ -213,5 +217,4 @@ if(!$session->has_logged_in())
 unset($_SESSION["msg"]);
 unset($_SESSION["msg1"]);
 unset($_SESSION["msg2"]);
-unset_destroy()
 ?>

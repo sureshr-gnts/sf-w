@@ -64,13 +64,68 @@ if(isset($_SESSION["newsEdit_formData"])){
         <title>Voice for Animals</title>
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/includes/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
-        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-
+        <!-- jQuery 2.0.2 -->
+         <script src="js/jquery.min.js"></script>
+        <script>
+        	$( "#desex" ).change(function() {
+        	  alert( "sadsad" );
+        	})
+		</script>
+        
+        <script type="text/javascript" src="js/plugins/jquery-validation/jquery.validate.js"></script>
+        <script type="text/javascript">
+		$('#txt_username').alpha(); // only accepts alphabetic characters
+		$('#txt_name').alpha();
+	</script>
+	
+ 	<script>
+ 	$().ready(function() {
+ 		$.validator.addMethod("alphabetOnly", function(value, element) {
+            return this.optional(element) || /^[a-z\-\s]+$/i.test(value);
+        }, "Text must contain only letters, numbers, or dashes.");
+                 
+				$("#animal").validate({
+					rules: {
+						animal_name: {
+							required:true,
+							alphabetOnly:true
+					                 },
+					       gender:
+					       {
+					    	required:true
+					       },
+					       dob:
+					       {
+					    	   required:true
+					       },
+					       
+					             
+					},
+					messages: {
+						animal_name: {
+							required: "Please enter your username",
+							alphabetOnly:"Please enter alphabet only"
+						             },
+					    gender:
+				               {
+				    	   required: "Please select the gender"
+				               },
+				        dob:
+				               {
+				    	   required: "Please enter dob"
+				               },
+				               
+					}
+				});
+			});
+           </script>	
     </head>
     <body class="pace-done skin-black fixed">
         <!-- header logo: style can be found in header.less -->
@@ -106,7 +161,7 @@ if(isset($_SESSION["newsEdit_formData"])){
 								
 								
 						
-                                <form role="form" action="animal_actions.php" autocomplete="off" method="post" enctype="multipart/form-data">
+                                <form role="form" id="animal" action="animal_actions.php" autocomplete="off" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="mode" value="post_new" />
 									 <div class="col-lg-12"> 				 
 				     				 <div>
@@ -116,37 +171,32 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="animal_name">NAME OF THE ANIMAL</label>
-                                            <input type="text" class="form-control" id="animal_name" name="animal_name">
+                                            <input type="text" class="form-control" id="animal_name" name="animal_name" required>
                                         </div>
 				     				 	<div class="form-group">
 				     				 		<label for="gender">GENDER</label>
                                             <div class="radio">
-                                                    <input type="radio" name="gender" id="gender" value="male" checked>MALE
-                                                    <input type="radio" name="gender" id="gender" value="female">FEMALE
+                                                    <input type="radio" name="gender" id="gender" value="male" checked required>MALE
+                                                    <input type="radio" name="gender" id="gender" value="female" required>FEMALE
                                             </div>
                                          </div>
                                       </div>
 				     				 <div class="col-lg-6">
                                     	<div class="form-group">
                                             <label>DOB</label>
-                                        	<div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="dob" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="dob" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="age">AGE</label>
-                                            <input type="text" class="form-control" id="age" name="age">
+                                            <input type="text" class="form-control" id="age" name="age" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                      	<div class="form-group">
                                             <label>SPECIES</label>
-                                            <select class="form-control" name="species">
+                                            <select class="form-control" id="species" name="species" required>
                                             	<option value="" disabled selected>Select Species</option>
                                                 <option value="dog">DOG</option>
                                                 <option value="cat">CAT</option>
@@ -156,37 +206,37 @@ if(isset($_SESSION["newsEdit_formData"])){
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="weight">WEIGHT</label>
-                                            <input type="text" class="form-control" id="weight" name="weight">
+                                            <input type="text" class="form-control" id="weight" name="weight" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="colour">COLOUR</label>
-                                            <input type="text" class="form-control" id="colour" name="colour">
+                                            <input type="text" class="form-control" id="colour" name="colour" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="behaviour">ANIMAL BEHAVIOUR</label>
-                                            <input type="text" class="form-control" id="behaviour" name="behaviour">
+                                            <input type="text" class="form-control" id="behaviour" name="behaviour" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="breed">BREED</label>
-                                            <input type="text" class="form-control" id="breed" name="breed">
+                                            <input type="text" class="form-control" id="breed" name="breed" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="location">LIVING LOCATION</label>
-                                            <input type="text" class="form-control" id="location" name="location">
+                                            <input type="text" class="form-control" id="location" name="location" required>
                                         </div>
                                      </div>
 				     				 <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="image">IMAGE</label>
-                                            <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)">
+                                            <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)" required>
                                         </div>
                                         <div class="form-group">
                                         <div class="col-md-3">
@@ -204,19 +254,19 @@ if(isset($_SESSION["newsEdit_formData"])){
 				     				 		<label for="relationship">RELATIONSHIP TYPE</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="relationship" id="donor" value="donor" checked>DONOR
-                                                    <input type="radio" name="relationship" id="volunteer" value="volunteer">VOLUNTEER
+                                                    <input type="radio" name="relationship" id="relationship" value="donor" checked required>DONOR
+                                                    <input type="radio" name="relationship" id="relationship" value="volunteer" required>VOLUNTEER
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="relationship" id="owner" value="owner">OWNER
-                                                    <input type="radio" name="relationship" id="care taker" value="care taker">CARE TAKER
+                                                    <input type="radio" name="relationship" id="relationship" value="owner" required>OWNER
+                                                    <input type="radio" name="relationship" id="relationship" value="care taker" required>CARE TAKER
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                     <input type="radio" name="relationship" id="animal lover" value="animal lover">ANIMAL LOVER
+                                                     <input type="radio" name="relationship" id="relationship" value="animal lover" required>ANIMAL LOVER
                                                 </label>
                                             </div>
                                         </div>  
@@ -224,39 +274,39 @@ if(isset($_SESSION["newsEdit_formData"])){
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="donor_no">IF DONOR</label>
-                                            <input type="text" class="form-control" id="donor_no" name="donor_no" placeholder="ENTER YOUR DONOR NUMBER">
+                                            <input type="text" class="form-control" id="donor_no" name="donor_no" placeholder="ENTER YOUR DONOR NUMBER" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="volunteer_no">IF VOLUNTEER</label>
-                                            <input type="text" class="form-control" id="volunteer_no" name="volunteer_no" placeholder="ENTER YOUR VOLUNTEER NUMBER">
+                                            <input type="text" class="form-control" id="volunteer_no" name="volunteer_no" placeholder="ENTER YOUR VOLUNTEER NUMBER" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_name">CARE TAKER NAME</label>
-                                            <input type="text" class="form-control" id="caretaker_name" name="caretaker_name">
+                                            <input type="text" class="form-control" id="caretaker_name" name="caretaker_name" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_mob">MOBILE NUMBER</label>
-                                            <input type="text" class="form-control" id="caretaker_mob" name="caretaker_mob">
+                                            <input type="text" class="form-control" id="caretaker_mob" name="caretaker_mob" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="caretaker_email">EMAIL</label>
-                                            <input type="text" class="form-control" id="caretaker_email" name="caretaker_email">
+                                            <input type="text" class="form-control" id="caretaker_email" name="caretaker_email" required>
                                         </div>
                                         <div class="form-group">
                                             <label>ADDRESS</label>
-                                            <textarea class="form-control" rows="4" id="caretaker_address" name="caretaker_address"></textarea>
+                                            <textarea class="form-control" rows="4" id="caretaker_address" name="caretaker_address" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="feeder_name">FEEDER NAME</label>
-                                            <input type="text" class="form-control" id="feeder_name" name="feeder_name">
+                                            <input type="text" class="form-control" id="feeder_name" name="feeder_name" required>
                                         </div>
                                     </div>
 				     				
@@ -266,143 +316,104 @@ if(isset($_SESSION["newsEdit_formData"])){
 										<h4 class="text-green">ANIMAL MEDICAL INFORMATION</h4>
 									</div>
 									</div>
+									
 									<div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="desex">DESEX</label>
                                             <div class="radio">
-                                                    <input type="radio" name="desex" id="" value="yes" checked>YES
-                                                    <input type="radio" name="desex" id="" value="no">NO
+                                                    <input type="radio" name="desex" id="desex" value="yes" checked required>YES
+                                                    <input type="radio" name="desex" id="desex" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="form-group">
+                                        <div class="form-group" id="desex_date">
                                             <label for="desex_date">DESEX DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="desex_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" name="desex_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="microchip">MICROCHIP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="microchip" id="" value="yes" checked>YES
-                                                    <input type="radio" name="microchip" id="" value="no">NO
+                                                    <input type="radio" name="microchip" id="microchip" value="yes" checked required>YES
+                                                    <input type="radio" name="microchip" id="" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="microchip_date">MICROCHIP DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="microchip_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="microchip_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="microchip_no">MICROCHIP NUMBER</label>
-                                            <input type="text" class="form-control" id="microchip_no" name="microchip_no">
+                                            <input type="text" class="form-control" id="microchip_no" name="microchip_no" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="arv">ARV</label>
                                             <div class="radio">
-                                                    <input type="radio" name="arv" id="" value="yes" checked>YES
-                                                    <input type="radio" name="arv" id="" value="no">NO
+                                                    <input type="radio" name="arv" id="arv" value="yes" checked required>YES
+                                                    <input type="radio" name="arv" id="arv" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="arv_date">ARV DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="arv_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="arv_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="arv_due">ARV NEXT DUE DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="arv_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" id="date" name="arv_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         	</div>
-                                        </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="dhpp">DHPPi+L</label>
                                             <div class="radio">
-                                                    <input type="radio" name="dhpp" id="" value="yes" checked>YES
-                                                    <input type="radio" name="dhpp" id="" value="no">NO
+                                                    <input type="radio" name="dhpp" id="dhpp" value="yes" checked required>YES
+                                                    <input type="radio" name="dhpp" id="dhpp" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="dhpp_date">DHPPi+L DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="dhpp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="dhpp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="dhpp_due">DHPPi+L NEXT DUE DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="dhpp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" id="date" name="dhpp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         	</div>
-                                        </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="fvrcp">FVRCP</label>
                                             <div class="radio">
-                                                    <input type="radio" name="fvrcp" id="" value="yes" checked>YES
-                                                    <input type="radio" name="fvrcp" id="" value="no">NO
+                                                    <input type="radio" name="fvrcp" id="fvrcp" value="yes" checked required>YES
+                                                    <input type="radio" name="fvrcp" id="fvrcp" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="fvrcp_date">FVRCP DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="fvrcp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="fvrcp_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="place">FVRCP NEXT DUE DATE</label>
-                                            <div class="input-group">
-                                            		<div class="input-group-addon">
-                                            		    <i class="fa fa-calendar"></i>
-                                            		</div>
-                                            		<input type="date" class="form-control" name="fvrcp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                                        	</div>
+                                            		<input type="date" class="form-control" id="date" name="fvrcp_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
 										<div class="form-group">
 				     				 		<label for="deworming">DEWORMING</label>
                                             <div class="radio">
-                                                    <input type="radio" name="deworming" id="" value="yes" checked>YES
-                                                    <input type="radio" name="deworming" id="" value="no">NO
+                                                    <input type="radio" name="deworming" id="deworming" value="yes" checked required>YES
+                                                    <input type="radio" name="deworming" id="deworming" value="no" required>NO
                                             </div>
                                          </div>
                                     </div>
@@ -413,7 +424,7 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="deworming_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" id="date" name="deworming_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         	</div>
                                         </div>
                                         <div class="form-group">
@@ -422,14 +433,14 @@ if(isset($_SESSION["newsEdit_formData"])){
                                             		<div class="input-group-addon">
                                             		    <i class="fa fa-calendar"></i>
                                             		</div>
-                                            		<input type="date" class="form-control" name="deworming_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+                                            		<input type="date" class="form-control" id="date" name="deworming_due" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required/>
                                         	</div>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>MEDICAL HISTROY</label>
-                                            <textarea class="form-control" rows="4" id="medical_histroy" name="medical_histroy"></textarea>
+                                            <textarea class="form-control" rows="4" id="medical_histroy" name="medical_histroy" required></textarea>
                                         </div>
 				     				</div>
 				     				
@@ -443,11 +454,11 @@ if(isset($_SESSION["newsEdit_formData"])){
 									<div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="vet_name">VET NAME</label>
-                                            <input type="text" class="form-control" id="vet_name" name="vet_name">
+                                            <input type="text" class="form-control" id="vet_name" name="vet_name" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="vet_mobile">VET MOBILE NUMBER</label>
-                                            <input type="text" class="form-control" id="vet_mob" name="vet_mob">
+                                            <input type="text" class="form-control" id="vet_mob" name="vet_mob" required>
                                         </div>
                                      </div>
 									
@@ -464,10 +475,9 @@ if(isset($_SESSION["newsEdit_formData"])){
                 </section>
 	</aside>
 
-        <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+     
         <!-- Bootstrap -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="css/includes/bootstrap.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->
         <script src="js/AdminLTE/app.js" type="text/javascript"></script>
         <!-- InputMask -->

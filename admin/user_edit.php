@@ -8,10 +8,10 @@ include_once 'libs/functions.php';
 include_once 'libs/lang.php';
 session_start();
 $session= new Session();
-//if(!$session->has_logged_in())
-//{
-//	redirect_to("index.php");
-//}
+if(!$session->has_logged_in())
+{
+	redirect_to("index.php");
+}
 
 //if(!$session->check_permission_level($page_id))
 //{
@@ -45,12 +45,61 @@ if(isset($_SESSION["userEdit_formData"])){
         <title>Voice for Animals</title>
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/includes/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
-        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
+         <!-- jQuery 2.0.2 -->
+        <script src="css/includes/jquery.min.js"></script>
+        <script type="text/javascript" src="js/plugins/jquery-validation/jquery.validate.js"></script>
+        
+	
+ 	<script>
+			
+			$().ready(function() {
+                 // alert('hi');
+				$("#user_new").validate({
+					rules: {
+						username: { 
+							required: true,
+							alpha:true
+						},
+						name: { 
+							required: true
+						},
+						account_type: {
+							required: true
+						},
+						status :
+						{
+							required: true
+							}
+						},
+					messages: {
+						username: {
+							required: "Please enter your username",
+							names: "Please enter a valid username"
+						},
+						name: { 
+							required: "Please enter your username",
+							names: "Please enter a valid username"
+						},
+						account_type: {
+							required: "Please select type of account"
+						},
+						status: {
+							required: "Please select type of status"
+						}
+					}
+				});
+				
+			
+				
+			});
+           </script>	
 
     </head>
     <body class="pace-done skin-black fixed">
@@ -84,20 +133,6 @@ if(isset($_SESSION["userEdit_formData"])){
                 <section class="content">
 				<!-- form start -->
 				
-				<?php if (isset($_SESSION["msg"])) { ?>
-            		<div class="alert alert-success alert-dismissable">
-                                        <i class="fa fa-ban"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Alert!</b> <?php echo $_SESSION["msg"]; ?>
-                	</div>
-                <?php } ?>
-                <?php if (isset($_SESSION["error"])) { ?>
-            	<div class="alert alert-danger alert-dismissable">
-                                        <i class="fa fa-ban"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Alert!</b> <?php echo $_SESSION["error"]; ?>
-                </div>
-                <?php } ?>
 				
 				
 				<?php 
@@ -111,81 +146,51 @@ if(isset($_SESSION["userEdit_formData"])){
             ?>
 				
 		
-                                <form role="form" action="user_actions.php" enctype="multipart/form-data" method="post">
+                                <form role="form" id="user_new" action="user_actions.php" enctype="multipart/form-data" method="post">
 								<input type="hidden" name="mode" value="user_edit">
 								<input type="hidden" id="id" name="id" value="<?php echo $_REQUEST['id']; ?>">
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="username">USERNAME</label>
-                                            <input type="text" class="form-control" name="username" value="<?php echo $row['username']; ?>" id="username">
+                                            <input type="text" class="form-control" name="username" id="username" value="<?php echo $row['username']; ?>" id="username" required>
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">
                                             <label for="name">FULL NAME</label>
-                                            <input type="text" class="form-control" name="name" value="<?php echo $row['name']; ?>" id="name">
+                                            <input type="text" class="form-control" name="name" value="<?php echo $row['name']; ?>" id="name" required>
                                         </div>
                                         </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>ACCOUNT TYPE</label>
-                                            <select class="form-control" id="account_type" name="account_type">
-												 <option  <?php if($row['isAdmin']=='1') { echo 'selected="true"';} ?> value="1">Admin</option>
-                                                 <option <?php if($row['isAdmin']=='2') { echo 'selected="true"';} ?> value="2">Sub-Admin</option>
+                                            <select class="form-control" id="account_type" name="account_type" required>
+												 <option  <?php if($row['account_type']=='1') { echo 'selected="true"';} ?> value="1">Admin</option>
+                                                 <option <?php if($row['account_type']=='2') { echo 'selected="true"';} ?> value="2">Sub-Admin</option>
                                             </select>
                                         </div>
                                       </div>
                                       <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>STATUS</label>
-                                            <select class="form-control" id="status" name="status">
+                                            <select class="form-control" id="status" name="status" required>
                                                  <option  <?php if($row['isActive']=='1') { echo 'selected="true"';} ?> value="1">Active</option>
                                                  <option <?php if($row['isActive']=='2') { echo 'selected="true"';} ?> value="2">Inactive</option>
                                             </select>
                                         </div>
                                       </div>
-                                    	<div class="col-lg-12"> 				 
-				     				 <div>
-										<h3 class="text-green">Set Permissions for user</h3>
-									</div>
-									<div>
-										<h4 class="text-red">(Please select atleast one user permission)</h4>
-									</div>
-									</div>
-									
-									
-			<?php
-			$id = $_GET['id'];	
-			
-			if( !isset($_SESSION['permissions']) )
-			{
-				$_SESSION['permissions'] = getPermission( $id );
-			}			
-			
-			?>
-			
-									
-									<!-- checkbox -->
-									<div class="col-lg-12"> 
-									
-									<?php 
-																foreach ($lang['select']['user_permissions'] as $key => $value){
-
-				                                            	?>
-				                                            	<div class="col-md-1"></div>
-				                                            	<div class="col-md-1">
-																	<input type="checkbox" name="permission[<?php echo $key; ?>]" id="permission" <?php if (is_array(getPermission( $id ))){if (array_key_exists($key, getPermission( $id ))){?> checked="checked" <?php }}?> value="<?php echo $key; ?>">
-																</div>
-																<div class="col-md-10">
-				                                            		<label><?php echo $value;?></label>
-				                                            	</div>
-				                                            	<?php 
-				                                            	}
-				                                            	?>
+                                      <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="image">IMAGE</label>
+                                            <input type="file" id="image" name="image" accept="image/*" onchange="showimagepreview1(this)">
                                         </div>
-                                     </div>
-									
-									
+                                        <div class="form-group">
+                                        <div class="col-md-3">
+                                             <img id="imgprvw1" alt="uploaded image preview" src="images/user/<?php echo $row['image']; ?>" />
+                                        </div>
+                                        </div>
+				     				 </div>
+								
 									<div class="col-lg-12"> 
                                     	<div class="box-footer">
                                             <button type="submit" name="action" class="btn btn-primary pull-right">Submit</button>
@@ -195,17 +200,23 @@ if(isset($_SESSION["userEdit_formData"])){
                 </section>
 	</aside>
 
-        <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        
         <!-- Bootstrap -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="css/includes/bootstrap.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->
         <script src="js/AdminLTE/app.js" type="text/javascript"></script>
+        <script>
+               function showimagepreview1(input) {
+               if (input.files && input.files[0]) {
+               var filerdr = new FileReader();
+               filerdr.onload = function(e) {
+               $('#imgprvw1').attr('src', e.target.result);
+               }
+               filerdr.readAsDataURL(input.files[0]);
+               }
+               }
+           </script>
 
 </body>
 </html>
-<?php
-unset($_SESSION["msg"]);
-unset($_SESSION["error"]);
 
-?>

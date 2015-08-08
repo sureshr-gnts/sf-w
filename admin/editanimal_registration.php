@@ -63,11 +63,11 @@ if(isset($_SESSION["newsEdit_formData"])){
         <meta charset="UTF-8">
         <title>Voice for Animals</title>
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/includes/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
-        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
@@ -121,12 +121,39 @@ if(isset($_SESSION["newsEdit_formData"])){
 								
 						
                                 <form role="form" action="animal_actions.php" method="post" autocomplete="off" enctype="multipart/form-data">
-								<input type="hidden" name="mode" value="post_new" />
+								<input type="hidden" name="mode" value="animal_edit" />
+								<input type="hidden" id="id" name="id" value="<?php echo $_REQUEST['id']; ?>">
 									 <div class="col-lg-12"> 				 
 				     				 <div>
 										<h4 class="text-green">ANIMAL INFORMATION</h4>
 									</div>
 									</div>
+									<div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="animal_name">SCAN FOUNDATION ANIMAL ID</label>
+                                            <input type="text" class="form-control" id="sf_id" name="sf_id" value="<?php echo $row['sf_id']; ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>STATUS</label>
+                                            		<?php if($_SESSION['VFA_isAdmin'] == 1)
+           															{      ?>
+                                                           <select class="form-control" id="status" name="status">
+                                                               <option value="" disabled selected>Select Status</option>
+                                                               <option <?php if($row['status'] == "approved"){ echo 'selected=true';}?>  value="approved">Approved</option>
+                                                               <option <?php if($row['status'] == "pending"){ echo 'selected=true';}?> value="pending">Pending</option>
+                                                               <option <?php if($row['status'] == "rejected"){ echo 'selected=true';}?> value="rejected">Rejected</option>
+                                                           </select>
+                                                                                             
+                                                     <?php
+                                                                     } 
+                                                           else{  ?>
+                            								<input type="text" value="<?php echo $row['status']; ?>" name="status" readonly="true">  
+                                                                                      <?php } ?>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="animal_name">NAME OF THE ANIMAL</label>
@@ -239,13 +266,13 @@ if(isset($_SESSION["newsEdit_formData"])){
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="donor_no">IF DONOR</label>
-                                            <input type="text" class="form-control" id="donor_no" value="<?php echo $row['donor_id']; ?>" name="donor_no" placeholder="ENTER YOUR DONOR NUMBER">
+                                            <input type="text" class="form-control" id="donor_id" value="<?php echo $row['donor_id']; ?>" name="donor_id" placeholder="ENTER YOUR DONOR NUMBER">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="volunteer_no">IF VOLUNTEER</label>
-                                            <input type="text" class="form-control" id="volunteer_no" value="<?php echo $row['volunteer_id']; ?>" name="volunteer_no" placeholder="ENTER YOUR VOLUNTEER NUMBER">
+                                            <input type="text" class="form-control" id="volunteer_id" value="<?php echo $row['volunteer_id']; ?>" name="volunteer_id" placeholder="ENTER YOUR VOLUNTEER NUMBER">
                                         </div>
                                      </div>
                                      <div class="col-lg-6">
@@ -480,9 +507,9 @@ if(isset($_SESSION["newsEdit_formData"])){
 	</aside>
 
         <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="css/includes/jquery.min.js"></script>
         <!-- Bootstrap -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="css/includes/bootstrap.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->
         <script src="js/AdminLTE/app.js" type="text/javascript"></script>
         <!-- InputMask -->

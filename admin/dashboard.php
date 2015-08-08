@@ -18,19 +18,73 @@
 		redirect_to("index.php");
 	} */
 
-	?> 
+?> 
+<?php
+$userid = $_SESSION['VFA_Userid'];
+$mode=$_REQUEST["mode"];
+
+if($mode == "password_change")
+{
+	$current_password=$_REQUEST["current_password"];
+	$en_password= md5($current_password);
+	$new_password=$_REQUEST["new_password"];
+    $confirm_password=md5($_REQUEST["confirm_password"]);
+
+	global $database, $db;
+
+ 	$qry="SELECT password from `".TBL_ADMIN."`
+			         WHERE `id`='".$userid."'";
+
+            
+            $result = $database->query( $qry );
+            $row_1 = $database->fetch_array( $result );
+            $old_pass = $row_1['password'];
+    
+     
+if( $en_password == $old_pass )
+{
+
+
+$qry_update="UPDATE `".TBL_ADMIN."` SET `password`='".$confirm_password."'
+			         WHERE `id`='".$userid."' ";
+	$result_update = $database->query( $qry_update );
+ if($result_update>0)
+ 	{
+
+		$_SESSION["msg1"]="Updated successfully!.";
+		redirect_to('dashboard.php');
+	 }
+	 else
+	 {
+		$_SESSION["msg2"]="Updating failed!.";
+		redirect_to('password.php');
+	 }
+}
+else
+{
+
+	$_SESSION["msg2"]="Enter correct password";
+	redirect_to('password.php');
+	
+	
+}
+}
+
+?>	
+	
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Voice for Animals</title>
-	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/includes/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
-        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Morris chart -->
         <link href="css/morris/morris.css" rel="stylesheet" type="text/css" />
         <!-- jvectormap -->
@@ -74,6 +128,13 @@
 
                 <!-- Main content -->
                 <section class="content">
+                <?php if (isset($_SESSION["msg1"])) { ?>
+            							<div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-ban"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Alert!</b> <?php echo $_SESSION["msg1"]; ?>
+                						</div>
+                				<?php } ?>
 
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
@@ -144,12 +205,10 @@
         <!-- add new calendar event modal -->
 
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
-        <!-- Morris.js charts -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-        <script src="js/plugins/morris/morris.min.js" type="text/javascript"></script>
+        <!-- jQuery 2.0.2 -->
+        <script src="css/includes/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="css/includes/bootstrap.min.js" type="text/javascript"></script>
         <!-- Sparkline -->
         <script src="js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
         <!-- jvectormap -->
@@ -177,3 +236,8 @@
 
     </body>
 </html>
+<?php
+unset($_SESSION["msg1"]);
+unset($_SESSION["msg2"]);
+unset($_SESSION["msg"]);
+?>

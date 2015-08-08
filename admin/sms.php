@@ -24,43 +24,28 @@
 		$keycode 	= $msgdetails[0];
         $key_name 	= $msgdetails[1];
 		$key_id 	= $msgdetails[3];
+		//$key_id 	= $msgdetails[2];
 		
         
 		if($keycode == "animal"){
-					if($key_name == "details"){
-				
-											$sf_id = $key_id;
-											$sql="SELECT animal_name,gender,species,relationship,caretaker_name,caretaker_mob FROM tbl_animal where sf_id='{$key_id}'";
-											$result_set = $database->query($sql);
-											while($row = $database->fetch_array($result_set)){
-											if($result_set>0)
-
-											echo "Hi i am ".$row['animal_name']." , Gender: ".$row['gender']." , Species: ".$row['species']." , Caretaker: ".$row['caretaker_name']." , Mobile NO: ".$row['caretaker_mob']." ";
-				
-											else {
-												
-													echo "Sorry, No data for your search";
-												
-											      }
-																							  }
-									  		 }
 			
-			 		if($key_name == "volunteer"){
+			 if($key_name == "volunteer"){
 			 	
-											  $sf_code = $key_id;
-											  $sql="SELECT fname,lname,email,mobile_no1 FROM tbl_volunteer where sf_code='{$key_id}'";
-											  $result_set = $database->query($sql);
-											  while($row = $database->fetch_array($result_set)){
-											  if($result_set>0)
+					$sf_code = $key_id;
+					$sql="SELECT fname,lname,email,mobile_no1 FROM tbl_volunteer where sf_code='{$key_id}'";
+					$result_set = $database->query($sql);
+					while($row = $database->fetch_array($result_set)){
+					if($result_set>0)
 				
-											  echo "Hi i am ".$row['fname']."".$row['lname']." , Email: ".$row['email']." , Mobile Number: ".$row['mobile_no1']."";
+					echo "Hi i am ".$row['fname']."".$row['lname']." , Email: ".$row['email']." , Mobile Number: ".$row['mobile_no1']."";
 				
-											  else {
+					else {
 
-													  echo "Sorry, No data for your search";
-													}
-																								}
-									 			}
+						echo "Sorry, No data for your search";
+													
+						}
+											}
+								 }
 
 			if($key_name == "owner"){
 				$owner_id = $key_id;
@@ -68,6 +53,26 @@
 			if($key_name == "donor"){
 				$volunter_id = $key_id;
 			}
+			else
+				{
+				
+						$sf_id = $key_name;
+ 
+						$sql="SELECT animal_name,gender,species,relationship,caretaker_name,caretaker_mob FROM tbl_animal where sf_id='{$sf_id}'";
+						$result_set = $database->query($sql);
+						 
+						while($row = $database->fetch_array($result_set)){
+						if($result_set>0)
+
+						echo "Hi i am ".$row['animal_name']." , Gender: ".$row['gender']." , Species: ".$row['species']." , Caretaker: ".$row['caretaker_name']." , Mobile NO: ".$row['caretaker_mob']." ";
+				
+						else {
+												
+								echo "Sorry, No data for your search";
+												
+							 }
+																		}
+				}
 		}
 
 	
@@ -77,4 +82,3 @@
 		}
 
 ?>
-
